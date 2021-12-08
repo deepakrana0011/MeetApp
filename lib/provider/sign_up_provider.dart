@@ -79,7 +79,6 @@ class SignUpProvider extends BaseProvider{
   }
   void setImage(File image) {
     file = image.path.toString();
-    print(file);
     notifyListeners();
   }
 
@@ -100,7 +99,6 @@ class SignUpProvider extends BaseProvider{
       }
 
     } on FetchDataException catch (c) {
-      print(c.toString());
       setState(ViewState.Idle);
       DialogHelper.showMessage(context, c.toString());
       return false;
@@ -109,7 +107,6 @@ class SignUpProvider extends BaseProvider{
       DialogHelper.showMessage(context, 'internet connection');
       return false;
     }
-
 
   }
 

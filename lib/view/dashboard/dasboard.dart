@@ -46,9 +46,7 @@ class _DashBoardState extends State<DashBoard> {
     //NotificationPage(),
     Write(),
     Maps(),
-    Center(
-      child: Text("Cerrar sesión Coming Soon"),
-    )
+
   ];
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
@@ -75,7 +73,7 @@ class _DashBoardState extends State<DashBoard> {
           backgroundColor: ColorConstants.colorbackground,
           key: _scaffoldKey,
           appBar: AppBar(
-            automaticallyImplyLeading: false,
+
             backgroundColor: ColorConstants.whiteColor,
             title: Text(menuitems[currentPosition]).appBarText(
                 ColorConstants.colorTextAppBar,

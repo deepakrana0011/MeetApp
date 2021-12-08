@@ -1,14 +1,24 @@
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/services.dart';
 import 'package:meetapp/enum/viewstate.dart';
 import 'package:meetapp/helper/dialog_helper.dart';
 import 'package:meetapp/model/Links.dart';
+import 'package:meetapp/model/write_record.dart';
 import 'package:meetapp/provider/base_provider.dart';
+import 'package:meetapp/repository/repository.dart';
 import 'package:meetapp/service/FetchDataExpection.dart';
+import 'package:nfc_manager/nfc_manager.dart';
 
 class WriteProvider extends BaseProvider {
   List<Datum> links = [];
+
+
+
+
+  ValueNotifier<dynamic> result = ValueNotifier(null);
   List<String> writeitems = [
     'Instagram',
     'Facebook',
@@ -53,7 +63,14 @@ class WriteProvider extends BaseProvider {
     try {
       var model = await api.createLink(context, writeitem, link);
       if (model.success) {
+
         setState(ViewState.Idle);
+        getLinks(context);
+
+        Navigator.of(context).pop();
+        DialogHelper.showMessage(
+            context,
+            'User Detail Created successfully');
         return true;
       } else {
         DialogHelper.showMessage(context, model.message);
@@ -61,7 +78,6 @@ class WriteProvider extends BaseProvider {
         return false;
       }
     } on FetchDataException catch (c) {
-      print(c.toString());
       setState(ViewState.Idle);
       DialogHelper.showMessage(context, c.toString());
       return false;
@@ -73,6 +89,7 @@ class WriteProvider extends BaseProvider {
   }
 
   void getLinkText(BuildContext context, writeitem) {
+    getLinks(context);
     link.clear();
 
     for(var i=0;i<types.length;i++){
@@ -90,12 +107,20 @@ class WriteProvider extends BaseProvider {
   }
 
  Future<bool> updateProfile(BuildContext context,  writeitem,  String link) async {
+
    setState(ViewState.Busy);
 
    try {
      var model = await api.updateLink(context, writeitem, link);
      if (model.success) {
        setState(ViewState.Idle);
+       getLinks(context);
+
+       Navigator.of(context).pop();
+       DialogHelper.showMessage(
+           context,
+           'User Detail Updated successfully');
+
        return true;
      } else {
        DialogHelper.showMessage(context, model.message);
@@ -114,5 +139,39 @@ class WriteProvider extends BaseProvider {
    }
 
   }
+
+  Future<String> writeNdef(NfcTag tag) async {
+
+      final tech = Ndef.from(tag);
+
+
+      if (tech == null)
+        throw('Tag is not ndef.');
+
+      if (!tech.isWritable)
+        throw('Tag is not ndef writable.');
+
+      try {
+        final message = NdefMessage(
+            [
+
+          NdefRecord.createUri(Uri.parse('www.facebook.com')),
+        ]);
+        await tech.write(message);
+
+      }on PlatformException catch (e) {
+        throw(e.message ?? 'Some error has occurred.');
+      }
+
+    return '[Ndef - Write] is completed.';
+  }
+
+  Future<String> cleardata(NfcTag tag,BuildContext context) async{
+  tag.data.clear();
+    return '[Ndef Tag] is clear.';
+  }
+
 }
+
+
 

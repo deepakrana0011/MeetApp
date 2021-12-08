@@ -12,7 +12,7 @@ import 'package:meetapp/service/FetchDataExpection.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfileProvider extends BaseProvider{
-  late GetProfileResponse profile;
+   GetProfileResponse? profile;
   List date=[];
   List date2=[];
   var datetime;
@@ -21,7 +21,6 @@ class ProfileProvider extends BaseProvider{
 
 
   Future<bool> getProfile(BuildContext context) async {
-
 
     setState(ViewState.Busy);
     try {
@@ -48,9 +47,9 @@ class ProfileProvider extends BaseProvider{
     var formatter = new DateFormat('yyyy-MM-dd');
     String formattedDate = formatter.format(now);
     date= formattedDate.split('-');
-    date2=profile.data.dob.split('-');
+    date2=profile!.data.dob.split('-');
    datetime=int.parse(date[0])-int.parse(date2[2]);
-   print(datetime);
+
 
 
   }
@@ -69,7 +68,7 @@ class ProfileProvider extends BaseProvider{
         return false;
       }
     } on FetchDataException catch (c) {
-      print(c.toString());
+
       setState(ViewState.Idle);
       DialogHelper.showMessage(context, c.toString());
       return false;

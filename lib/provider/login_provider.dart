@@ -21,6 +21,8 @@ class LoginProvider extends BaseProvider{
       var model = await api.login(context,email,password);
       if(model.success){
         SharedPref.prefs?.setString(SharedPref.TOKEN, model.token);
+        SharedPref.prefs?.setString(SharedPref.FIRST_NAME, model.data!.firstName);
+        SharedPref.prefs?.setString(SharedPref.USER_ID, model.data!.id);
         setState(ViewState.Idle);
         return true;
       }else{
@@ -30,7 +32,7 @@ class LoginProvider extends BaseProvider{
       }
 
     } on FetchDataException catch (c) {
-      print(c.toString());
+
       setState(ViewState.Idle);
       DialogHelper.showMessage(context, c.toString());
       return false;

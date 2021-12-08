@@ -8,6 +8,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:meetapp/constants/image_constants.dart';
 import 'package:meetapp/enum/viewstate.dart';
 import 'package:meetapp/helper/dialog_helper.dart';
+import 'package:meetapp/helper/shared_pref.dart';
 import 'package:meetapp/model/GetLocationResponse.dart';
 import 'package:meetapp/provider/base_provider.dart';
 import 'package:meetapp/service/FetchDataExpection.dart';
@@ -22,33 +23,36 @@ class MapsProvider extends BaseProvider {
   BitmapDescriptor? myIcon;
 
   void getLngLt(context) {
+
     setState(ViewState.Busy);
     Geolocator.getCurrentPosition().then((value) {
       lat = value.latitude;
       long = value.longitude;
+      print(long);
       setState(ViewState.Idle);
     });
   }
 
   Future<bool> getLocations(BuildContext context) async {
-    /*BitmapDescriptor.fromAssetImage(
-        ImageConfiguration(size: Size(48, 48)), ImageConstants.ic_maps)
-        .then((onValue) {
-      myIcon = onValue;
-    });*/
+    print(SharedPref.prefs?.getString(SharedPref.USER_ID));
+    BitmapDescriptor.fromAssetImage(ImageConfiguration(size: Size(100, 100)),
+        'images/ic_map.png')
+        .then((d) {
+      myIcon = d;
+    });
+
     setState(ViewState.Busy);
     try {
       var model = await api.getLocationResponse();
       locations = model.data;
-
       for(var i=0;i<locations.length;i++){
         markers.add(Marker(markerId: MarkerId(i.toString()),position: LatLng(locations[i].latitude,locations[i].longitude),
           visible: true,
-          icon: BitmapDescriptor.defaultMarker,
+          icon: locations[i].id!= SharedPref.prefs?.getString(SharedPref.USER_ID)? myIcon as BitmapDescriptor:
+          BitmapDescriptor.defaultMarker,
         ),
         );
       }
-
 
       setState(ViewState.Idle);
       return true;
@@ -88,6 +92,6 @@ class MapsProvider extends BaseProvider {
 
 
     );
-    print(markers);
+
   }
 }

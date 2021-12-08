@@ -7,12 +7,15 @@ import 'package:meetapp/constants/color_constants.dart';
 import 'package:meetapp/constants/image_constants.dart';
 import 'package:meetapp/constants/route_constants.dart';
 import 'package:meetapp/helper/dialog_helper.dart';
+import 'package:meetapp/model/write_record.dart';
+import 'package:meetapp/provider/nfc_sesson.dart';
 import 'package:meetapp/provider/write_provider.dart';
 import 'package:meetapp/view/base_view.dart';
 import 'package:meetapp/extensions/allExtensions.dart';
 import 'package:meetapp/widgets/image_view.dart';
 import 'package:meetapp/widgets/roundCornerShape.dart';
-import 'package:nfc_in_flutter/nfc_in_flutter.dart';
+import 'package:nfc_manager/nfc_manager.dart';
+import 'package:provider/provider.dart';
 
 class Write extends StatefulWidget {
   @override
@@ -21,7 +24,7 @@ class Write extends StatefulWidget {
 
 class _WriteState extends State<Write> {
   ScreenScaler? scaler;
-
+  Iterable<WriteRecord> ss = [];
   List<String> writeIcons = [
     ImageConstants.ic_instagram,
     ImageConstants.ic_facebook,
@@ -32,24 +35,21 @@ class _WriteState extends State<Write> {
     ImageConstants.ic_snapchat,
     ImageConstants.ic_tiktok,
   ];
-  bool _supportsNFC = false;
-  bool _reading = false;
-  StreamSubscription<NDEFMessage>? _stream;
 
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   final _formKey = GlobalKey<FormState>();
+  bool isAvailable = false;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    NFC.isNDEFSupported
-        .then((bool isSupported) {
+    NfcManager.instance.isAvailable().then((bool value) {
       setState(() {
-        _supportsNFC = isSupported;
+        isAvailable = value;
       });
+      print(isAvailable);
     });
-    print(_supportsNFC);
   }
 
   @override
@@ -59,6 +59,8 @@ class _WriteState extends State<Write> {
     }
     return SafeArea(
       child: Scaffold(
+
+
           resizeToAvoidBottomInset: false,
           backgroundColor: ColorConstants.colorbackground,
           key: _scaffoldKey,
@@ -116,17 +118,7 @@ class _WriteState extends State<Write> {
                                                         provider
                                                             .writeitems[index],
                                                         provider.link.text)
-                                                    .then((value) {
-                                                  if (value) {
-                                                    Navigator.of(context)
-                                                        .pushNamed(
-                                                      RoutesConstants.dashboard,
-                                                    );
-                                                    DialogHelper.showMessage(
-                                                        context,
-                                                        'User Detail Created successfully');
-                                                  }
-                                                });
+                                                   ;
                                               }, negativeButtonPress: () {
                                                 Navigator.pop(context);
                                               })
@@ -154,18 +146,8 @@ class _WriteState extends State<Write> {
                                                         context,
                                                         provider
                                                             .writeitems[index],
-                                                        provider.link.text)
-                                                    .then((value) {
-                                                  if (value) {
-                                                    Navigator.of(context)
-                                                        .pushNamed(
-                                                      RoutesConstants.dashboard,
-                                                    );
-                                                    DialogHelper.showMessage(
-                                                        context,
-                                                        'User Detail Updated successfully');
-                                                  }
-                                                });
+                                                        provider.link.text);
+
                                               }, negativeButtonPress: () {
                                                 Navigator.pop(context);
                                               });
@@ -188,7 +170,20 @@ class _WriteState extends State<Write> {
                     Padding(
                       padding: scaler!.getPaddingLTRB(3, 1.5, 3, 0.8),
                       child: GestureDetector(
-                        onTap: () {},
+                        onTap: () {
+                          if (isAvailable) {
+                            startSession(
+                              context: context,
+                              handleTag: (tag) => Provider.of<WriteProvider>(
+                                      context,
+                                      listen: false)
+                                  .writeNdef(tag),
+                            );
+                          } else {
+                            DialogHelper.showMessage(
+                                context, 'NFC is not available on your device');
+                          }
+                        },
                         child: Container(
                           width: MediaQuery.of(context).size.width,
                           height: scaler!.getHeight(4),
@@ -223,7 +218,31 @@ class _WriteState extends State<Write> {
                     Padding(
                       padding: scaler!.getPaddingLTRB(3, 0, 3, 2),
                       child: GestureDetector(
-                        onTap: () {},
+                        onTap: () {
+                          if (isAvailable) {
+                            DialogHelper.showDialogWithTwoButtons(
+                                context,
+                                'Erase Data',
+                                'Yes',
+                                'Cancel',
+                                'Are you sure you want to erase data from NFC ?',
+                                positiveButtonPress: () {
+                              startSession(
+                                context: context,
+                                handleTag: (tag) => Provider.of<WriteProvider>(
+                                        context,
+                                        listen: false)
+                                    .cleardata(tag,context),
+                              );
+                            }, negativeButtonPress: () {
+                              Navigator.pop(context);
+                            });
+                          } else {
+
+                            DialogHelper.showMessage(
+                                context, 'NFC is not available on your device');
+                          }
+                        },
                         child: Container(
                           width: MediaQuery.of(context).size.width,
                           height: scaler!.getHeight(4),

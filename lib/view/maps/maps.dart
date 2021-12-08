@@ -38,6 +38,7 @@ class _MapsState extends State<Maps> {
     // TODO: implement initState
     super.initState();
 
+
   }
 
 
@@ -64,13 +65,14 @@ class _MapsState extends State<Maps> {
                 ),
               ):GoogleMap(
                 mapType: MapType.normal,
+                  mapToolbarEnabled: false,
+
 
                   markers: Set<Marker>.of(provider.markers),
                   myLocationEnabled: true,
-                  myLocationButtonEnabled: true,
                   initialCameraPosition: CameraPosition(
                     target: LatLng(provider.lat,provider.long),
-                    zoom: 15,
+                    zoom: 20,
                   ));
             },
           )),
