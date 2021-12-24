@@ -44,9 +44,7 @@ class _ProfileState extends State<Profile> {
           body: BaseView<ProfileProvider>(
             onModelReady: (provider) {
               provider.determinePosition(context);
-
               provider.getProfile(context);
-
 
 
             },
@@ -77,7 +75,7 @@ class _ProfileState extends State<Profile> {
 
                                       child: ImageView(
                                         path: ApiConstants.IMAGE_URL +
-                                            provider.profile!.data
+                                            provider.profile.data
                                                 .profilePic,
                                         height: scaler!.getHeight(28),
                                         width: MediaQuery.of(context).size.width,
@@ -93,9 +91,9 @@ class _ProfileState extends State<Profile> {
                                       mainAxisAlignment:
                                           MainAxisAlignment.center,
                                       children: [
-                                        Text(provider.profile!.data.firstName +
+                                        Text(provider.profile.data.firstName +
                                                 ' ' +
-                                                provider.profile!.data.lastName)
+                                                provider.profile.data.lastName)
                                             .appBarText(
                                                 ColorConstants.colorwritebutton,
                                                 scaler!.getTextSize(11))
@@ -137,7 +135,7 @@ class _ProfileState extends State<Profile> {
                                     padding:
                                         scaler!.getPaddingLTRB(1.5, 1, 1.5, 1),
                                     child:
-                                        Text(provider.profile!.data.description)
+                                        Text(provider.profile.data.description)
                                             .mediumText(
                                                 ColorConstants
                                                     .colorprofileTextColor,

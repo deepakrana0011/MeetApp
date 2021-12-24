@@ -49,6 +49,7 @@ class _WriteState extends State<Write> {
         isAvailable = value;
       });
       print(isAvailable);
+
     });
   }
 
@@ -173,11 +174,16 @@ class _WriteState extends State<Write> {
                         onTap: () {
                           if (isAvailable) {
                             startSession(
+
                               context: context,
+
+
                               handleTag: (tag) => Provider.of<WriteProvider>(
                                       context,
                                       listen: false)
                                   .writeNdef(tag),
+
+
                             );
                           } else {
                             DialogHelper.showMessage(
@@ -219,6 +225,7 @@ class _WriteState extends State<Write> {
                       padding: scaler!.getPaddingLTRB(3, 0, 3, 2),
                       child: GestureDetector(
                         onTap: () {
+
                           if (isAvailable) {
                             DialogHelper.showDialogWithTwoButtons(
                                 context,
@@ -234,6 +241,7 @@ class _WriteState extends State<Write> {
                                         listen: false)
                                     .cleardata(tag,context),
                               );
+                              Navigator.pop(context);
                             }, negativeButtonPress: () {
                               Navigator.pop(context);
                             });

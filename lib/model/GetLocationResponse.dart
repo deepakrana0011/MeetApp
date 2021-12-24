@@ -37,15 +37,15 @@ class Datum {
     id: json["_id"],
     firstName: json["firstName"],
     lastName: json["lastName"],
-    longitude: json["longitude"].toDouble(),
-    latitude: json["latitude"].toDouble(),
+    longitude: json["longitude"] == null ? null : json["longitude"].toDouble(),
+    latitude: json["latitude"] == null ? null : json["latitude"].toDouble(),
   );
 
   Map<String, dynamic> toJson() => {
     "_id": id,
     "firstName": firstName,
     "lastName": lastName,
-    "longitude": longitude,
-    "latitude": latitude,
+    "longitude": longitude == null ? null : longitude,
+    "latitude": latitude == null ? null : latitude,
   };
 }

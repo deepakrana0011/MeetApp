@@ -11,6 +11,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+
   SharedPref.prefs = await SharedPreferences.getInstance();
 
   SystemChrome.setSystemUIOverlayStyle(
@@ -28,9 +30,6 @@ Future<void> main() async {
 
 class MyApp extends StatelessWidget {
   SharedPreferences? prefs;
-
-
-
 
   @override
 

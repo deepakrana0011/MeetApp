@@ -74,6 +74,7 @@ class _DashBoardState extends State<DashBoard> {
           key: _scaffoldKey,
           appBar: AppBar(
 
+
             backgroundColor: ColorConstants.whiteColor,
             title: Text(menuitems[currentPosition]).appBarText(
                 ColorConstants.colorTextAppBar,
@@ -88,6 +89,18 @@ class _DashBoardState extends State<DashBoard> {
                 _scaffoldKey.currentState!.openDrawer();
               },
             ),
+            actions: [
+              menuitems[currentPosition]=='Profile'?Padding(
+                padding: scaler!.getPaddingLTRB(0, 0, 3, 0),
+                child: GestureDetector(
+                  onTap: (){
+                    Navigator.of(context)
+                        .pushNamed(RoutesConstants.editProfile);
+                  },
+                    child: Icon(Icons.edit,color: ColorConstants.colorTextAppBar,)),
+              ):
+                  SizedBox()
+            ],
             centerTitle: true,
           ),
           drawer: _buildDrawer(scaler!),

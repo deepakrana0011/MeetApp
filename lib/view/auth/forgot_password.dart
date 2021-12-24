@@ -10,17 +10,18 @@ import 'package:meetapp/constants/route_constants.dart';
 import 'package:meetapp/constants/validations.dart';
 import 'package:meetapp/enum/viewstate.dart';
 import 'package:meetapp/helper/keyboard_helper.dart';
+import 'package:meetapp/provider/forgot_provider.dart';
 import 'package:meetapp/provider/login_provider.dart';
 import 'package:meetapp/view/base_view.dart';
 import 'package:meetapp/extensions/allExtensions.dart';
 import 'package:meetapp/widgets/roundCornerShape.dart';
 
-class LoginPage extends StatefulWidget {
+class ForgotPassword extends StatefulWidget {
   @override
-  _LoginPageState createState() => _LoginPageState();
+  _ForgotPasswordState createState() => _ForgotPasswordState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _ForgotPasswordState extends State<ForgotPassword> {
   ScreenScaler? scaler;
   final _formKey = GlobalKey<FormState>();
 
@@ -41,9 +42,10 @@ class _LoginPageState extends State<LoginPage> {
     }
     return SafeArea(
         child: Scaffold(
+          
             backgroundColor: ColorConstants.whiteColor,
             key: _scaffoldKey,
-            body: BaseView<LoginProvider>(
+            body: BaseView<ForgotProvider>(
                 onModelReady: (provider) {},
                 builder: (context, provider, _) {
                   return SingleChildScrollView(
@@ -53,6 +55,18 @@ class _LoginPageState extends State<LoginPage> {
                         width: MediaQuery.of(context).size.width,
                         child: Column(
                           children: [
+                            Row(
+                              children: [
+                              Padding(
+                                padding: scaler!.getPaddingLTRB(2, 1, 0, 0),
+                                child: GestureDetector(
+                                  onTap: (){
+                                    Navigator.pop(context);
+                                  },
+                                    child: Icon(Icons.arrow_back_outlined,color: ColorConstants.colorButtonbgColor,size: 25,)),
+                              )
+                              ],
+                            ),
                             SizedBox(
                               height: scaler!.getHeight(8.3),
                             ),
@@ -97,16 +111,16 @@ class _LoginPageState extends State<LoginPage> {
                                     child: Container(
                                       child: TextFormField(
                                         cursorColor:
-                                            ColorConstants.colorButtonbgColor,
+                                        ColorConstants.colorButtonbgColor,
                                         controller: _emailController,
                                         style: ViewDecoration.textFieldStyle(
                                             scaler!.getTextSize(10)),
                                         decoration: ViewDecoration
                                             .inputDecorationWithCurve(
-                                                "Email", scaler!),
-                                        textInputAction: TextInputAction.next,
+                                            "Email", scaler!),
+                                        textInputAction: TextInputAction.done,
                                         keyboardType:
-                                            TextInputType.emailAddress,
+                                        TextInputType.emailAddress,
                                         validator: (value) {
                                           if (value!.trim().isEmpty) {
                                             return 'Empty email';
@@ -120,87 +134,11 @@ class _LoginPageState extends State<LoginPage> {
                                       ),
                                     ),
                                   ),
-                                  Padding(
-                                    padding: scaler!.getPaddingLTRB(6, 1, 6, 0),
-                                    child: Container(
-                                      child: TextFormField(
-                                        cursorColor:
-                                            ColorConstants.colorButtonbgColor,
-                                        controller: _passwordController,
-                                        style: ViewDecoration.textFieldStyle(
-                                            scaler!.getTextSize(10)),
-                                        obscureText: !_passwordVisible,
-                                        decoration: ViewDecoration
-                                            .inputDecorationWithCurveandColor(
-                                          "Password",
-                                          scaler!,
-                                          suffixIcon: IconButton(
-                                            icon: Icon(
-                                              // Based on passwordVisible state choose the icon
-                                              _passwordVisible
-                                                  ? Icons.visibility
-                                                  : Icons.visibility_off,
-                                              color: Color(0xff828282),
-                                              size: 15,
-                                            ),
-                                            onPressed: () {
-                                              // Update the state i.e. toogle the state of passwordVisible variable
-                                              setState(() {
-                                                _passwordVisible =
-                                                    !_passwordVisible;
-                                              });
-                                            },
-                                          ),
-                                        ),
-                                        textInputAction: TextInputAction.done,
-                                        keyboardType: TextInputType.text,
-                                        validator: (value) {
-                                          if (value!.trim().isEmpty) {
-                                            return 'Empty password';
-                                          } else if (value.length < 6) {
-                                            return 'Enter a password with length at least 6 letters';
-                                          } else {
-                                            return null;
-                                          }
-                                        },
-                                      ),
-                                    ),
-                                  ),
+
                                 ],
                               ),
                             ),
-                            SizedBox(
-                              height: scaler!.getHeight(0.5),
-                            ),
-                            Padding(
-                              padding: scaler!.getPaddingLTRB(0, 0, 7, 0),
-                              child: GestureDetector(
-                                onTap: () {
-                                  Navigator.of(context)
-                                      .pushNamed(RoutesConstants.forgot);
-                                },
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
 
-                                    Padding(
-                                      padding:
-                                      scaler!.getPaddingLTRB(0, 0, 0, 0),
-                                      child: Column(
-                                        children: [
-                                          Text(
-                                            'Forgot Password?',
-                                          ).mediumText(
-                                              ColorConstants.colorButtonbgColor,
-                                              scaler!.getTextSize(10),
-                                              TextAlign.center),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
                             Padding(
                               padding: scaler!.getPaddingLTRB(6, 2, 6, 0),
                               child:provider.state == ViewState.Busy?
@@ -212,17 +150,24 @@ class _LoginPageState extends State<LoginPage> {
                                 onTap: () {
                                   if (_formKey.currentState!.validate()) {
                                     KeyboardHelper.hideKeyboard(context);
-                                   provider.login(
-                                     context,
-                                     _emailController.text.trim(),
-                                     _passwordController.text.trim()
-                                   ).then((value) {
-                                     if(value){
-                                       Navigator.pushNamedAndRemoveUntil(context, "dashboard", (Route<dynamic> route) => false);
+                                    provider
+                                        .forgotpassword(
+                                        context,
+                                        _emailController.text.trim(),
 
-                                     }
-                                   });
+
+
+
+                                    ).then((value) {
+                                      if(value){
+
+
+                                      }
+
+
+                                    });
                                   }
+
                                 },
                                 child: Container(
                                   width: MediaQuery.of(context).size.width,
@@ -232,17 +177,17 @@ class _LoginPageState extends State<LoginPage> {
                                     radius: 8,
                                     child: Padding(
                                       padding:
-                                          scaler!.getPaddingLTRB(0, 0, 0, 0),
+                                      scaler!.getPaddingLTRB(0, 0, 0, 0),
                                       child: Center(
                                         child: Row(
                                           mainAxisAlignment:
-                                              MainAxisAlignment.center,
+                                          MainAxisAlignment.center,
                                           children: [
                                             Padding(
                                               padding: scaler!
                                                   .getPaddingLTRB(0.5, 0, 0, 0),
                                               child: Text(
-                                                'Login',
+                                                'Submit',
                                               ).buttonText(
                                                   ColorConstants.whiteColor,
                                                   scaler!.getTextSize(11),
@@ -257,43 +202,7 @@ class _LoginPageState extends State<LoginPage> {
                               ),
                             ),
 
-                            SizedBox(
-                              height: scaler!.getHeight(1),
-                            ),
-                            Padding(
-                              padding: scaler!.getPaddingLTRB(0, 0.5, 0, 1.5),
-                              child: GestureDetector(
-                                onTap: () {
-                                  Navigator.of(context)
-                                      .pushNamed(RoutesConstants.signup);
-                                },
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                      "Don't have an account?",
-                                    ).mediumText(
-                                        ColorConstants.colorTextAppBar,
-                                        scaler!.getTextSize(11),
-                                        TextAlign.center),
-                                    Padding(
-                                      padding:
-                                          scaler!.getPaddingLTRB(0.5, 0, 0, 0),
-                                      child: Column(
-                                        children: [
-                                          Text(
-                                            'Sign up',
-                                          ).mediumText(
-                                              ColorConstants.colorButtonbgColor,
-                                              scaler!.getTextSize(11.2),
-                                              TextAlign.center),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            )
+
                           ],
                         ),
                       ),

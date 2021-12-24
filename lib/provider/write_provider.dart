@@ -3,12 +3,13 @@ import 'dart:typed_data';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
+import 'package:meetapp/constants/api_constants.dart';
 import 'package:meetapp/enum/viewstate.dart';
 import 'package:meetapp/helper/dialog_helper.dart';
+import 'package:meetapp/helper/shared_pref.dart';
 import 'package:meetapp/model/Links.dart';
 import 'package:meetapp/model/write_record.dart';
 import 'package:meetapp/provider/base_provider.dart';
-import 'package:meetapp/repository/repository.dart';
 import 'package:meetapp/service/FetchDataExpection.dart';
 import 'package:nfc_manager/nfc_manager.dart';
 
@@ -83,7 +84,7 @@ class WriteProvider extends BaseProvider {
       return false;
     } on SocketException catch (c) {
       setState(ViewState.Idle);
-      DialogHelper.showMessage(context, 'internet connection');
+      DialogHelper.showMessage(context, 'Internet connection');
       return false;
     }
   }
@@ -128,19 +129,20 @@ class WriteProvider extends BaseProvider {
        return false;
      }
    } on FetchDataException catch (c) {
-     print(c.toString());
+
      setState(ViewState.Idle);
      DialogHelper.showMessage(context, c.toString());
      return false;
    } on SocketException catch (c) {
      setState(ViewState.Idle);
-     DialogHelper.showMessage(context, 'internet connection');
+     DialogHelper.showMessage(context, 'Internet connection');
      return false;
    }
 
   }
 
   Future<String> writeNdef(NfcTag tag) async {
+    var id=SharedPref.prefs?.getString(SharedPref.USER_ID);
 
       final tech = Ndef.from(tag);
 
@@ -155,7 +157,7 @@ class WriteProvider extends BaseProvider {
         final message = NdefMessage(
             [
 
-          NdefRecord.createUri(Uri.parse('www.facebook.com')),
+          NdefRecord.createUri(Uri.parse(ApiConstants.NFC_URL+id!)),
         ]);
         await tech.write(message);
 
@@ -167,8 +169,29 @@ class WriteProvider extends BaseProvider {
   }
 
   Future<String> cleardata(NfcTag tag,BuildContext context) async{
-  tag.data.clear();
-    return '[Ndef Tag] is clear.';
+    final tech = Ndef.from(tag);
+
+
+    if (tech == null)
+      throw('Tag is not ndef.');
+
+    if (!tech.isWritable)
+      throw('Tag is not ndef writable.');
+
+    try {
+      final message = NdefMessage(
+          [
+
+            NdefRecord.createText(''),
+          ]);
+      await tech.write(message);
+      Navigator.of(context).pop();
+
+    }on PlatformException catch (e) {
+      throw(e.message ?? 'Some error has occurred.');
+    }
+
+    return '[Ndef - Tag] is clear.';
   }
 
 }

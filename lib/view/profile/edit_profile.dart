@@ -4,38 +4,32 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screen_scaler/flutter_screen_scaler.dart';
-import 'package:geolocator/geolocator.dart';
+import 'package:meetapp/constants/api_constants.dart';
 import 'package:meetapp/constants/color_constants.dart';
 import 'package:meetapp/constants/decoration.dart';
-import 'package:meetapp/constants/route_constants.dart';
 import 'package:meetapp/constants/validations.dart';
 import 'package:meetapp/enum/viewstate.dart';
 import 'package:meetapp/helper/dialog_helper.dart';
 import 'package:meetapp/helper/keyboard_helper.dart';
-import 'package:meetapp/provider/sign_up_provider.dart';
+import 'package:meetapp/provider/EditProfileProvider.dart';
 import 'package:meetapp/view/base_view.dart';
 import 'package:meetapp/extensions/allExtensions.dart';
 import 'package:meetapp/widgets/imagePickerDialog.dart';
 import 'package:meetapp/widgets/image_view.dart';
 import 'package:meetapp/widgets/roundCornerShape.dart';
-import 'package:permission_handler/permission_handler.dart';
 
-class SignUp extends StatefulWidget {
+class EditProfile extends StatefulWidget {
   @override
-  _SignUpState createState() => _SignUpState();
+  _EditProfileState createState() => _EditProfileState();
 }
 
-class _SignUpState extends State<SignUp> {
+class _EditProfileState extends State<EditProfile> {
   ScreenScaler? scaler;
   final _formKey = GlobalKey<FormState>();
-  final fnamecontroller = TextEditingController();
-  final lnamecontroller = TextEditingController();
-  final agecontroller = TextEditingController();
-  final desccontroller = TextEditingController();
-  final _emailController = TextEditingController();
-  final _passwordController = TextEditingController();
+
+
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
-  bool _passwordVisible = false;
+
 
 
   @override
@@ -53,18 +47,31 @@ class _SignUpState extends State<SignUp> {
       child: Scaffold(
           backgroundColor: ColorConstants.whiteColor,
           key: _scaffoldKey,
-          body: BaseView<SignUpProvider>(
+          body: BaseView<EditProfileProvider>(
             onModelReady: (provider) {
-              provider.determinePosition(context);
+              provider.getUserInfo(context);
             },
             builder: (context, provider, _) {
-              return SingleChildScrollView(
+              return
+                SingleChildScrollView(
                 child: Column(
                   children: [
                     Container(
                       color: ColorConstants.colorbackground,
                       child: Column(
                         children: [
+                          Row(
+                            children: [
+                              Padding(
+                                padding: scaler!.getPaddingLTRB(2, 1, 0, 0),
+                                child: GestureDetector(
+                                    onTap: (){
+                                      Navigator.pop(context);
+                                    },
+                                    child: Icon(Icons.arrow_back_outlined,color: ColorConstants.colorButtonbgColor,size: 25,)),
+                              )
+                            ],
+                          ),
                           SizedBox(
                             height: scaler!.getHeight(2),
                           ),
@@ -75,27 +82,28 @@ class _SignUpState extends State<SignUp> {
                                 clipBehavior: Clip.antiAliasWithSaveLayer,
                                 overflow: Overflow.visible,
                                 children: [
-                             provider.file==''?     CircleAvatar(
+
+                                  CircleAvatar(
                                       radius: 50,
                                       backgroundColor:
-                                          ColorConstants.whiteColor,
-                                      child: Icon(
-                                        Icons.person,
-                                        size: 80,
-                                        color: ColorConstants.colorTextAppBar,
-                                      )):
-                             CircleAvatar(
-                                 radius: 50,
-                                 backgroundColor:
-                                 ColorConstants.whiteColor,
+                                      ColorConstants.whiteColor,
 
-                                 child: ImageView(
-                                   width: scaler!.getWidth(25),
-                                   radius: scaler!.getWidth(14),
-                                   height: scaler!.getWidth(25),
-                                   circleCrop: true,
-                                 path: provider.file,fit: BoxFit.cover,
-                                 ))
+                                      child:
+                                      provider.file.contains('static')?ImageView(
+                                        width: scaler!.getWidth(25),
+                                        radius: scaler!.getWidth(14),
+                                        height: scaler!.getWidth(25),
+                                        circleCrop: true,
+                                        path: ApiConstants.IMAGE_URL+provider.file,fit: BoxFit.cover,
+                                      ):
+                                      ImageView(
+                                        width: scaler!.getWidth(25),
+                                        radius: scaler!.getWidth(14),
+                                        height: scaler!.getWidth(25),
+                                        circleCrop: true,
+                                        path: provider.file,fit: BoxFit.cover,
+                                      )
+                                  )
                                   ,
                                   Positioned(
                                       top: 60,
@@ -105,7 +113,7 @@ class _SignUpState extends State<SignUp> {
                                             showDialog(
                                                 context: context,
                                                 builder: (BuildContext
-                                                        context) =>
+                                                context) =>
                                                     CustomDialog(
                                                       cameraClick: () {
                                                         provider.getImage(
@@ -160,7 +168,7 @@ class _SignUpState extends State<SignUp> {
                                   textCapitalization: TextCapitalization.sentences,
                                   cursorColor:
                                   ColorConstants.colorButtonbgColor,
-                                  controller: fnamecontroller,
+                                  controller: provider.fnamecontroller,
                                   style: ViewDecoration.textFieldStyle(
                                       scaler!.getTextSize(10)),
                                   decoration:
@@ -185,13 +193,13 @@ class _SignUpState extends State<SignUp> {
                                 child: TextFormField(
                                   textCapitalization: TextCapitalization.sentences,
                                   cursorColor:
-                                      ColorConstants.colorButtonbgColor,
-                                  controller: lnamecontroller,
+                                  ColorConstants.colorButtonbgColor,
+                                  controller: provider.lnamecontroller,
                                   style: ViewDecoration.textFieldStyle(
                                       scaler!.getTextSize(10)),
                                   decoration:
-                                      ViewDecoration.inputDecorationWithCurve(
-                                          "Last Name", scaler!),
+                                  ViewDecoration.inputDecorationWithCurve(
+                                      "Last Name", scaler!),
                                   textInputAction: TextInputAction.next,
                                   keyboardType: TextInputType.text,
                                   validator: (value) {
@@ -217,7 +225,7 @@ class _SignUpState extends State<SignUp> {
                                       scaler!.getTextSize(10)),
                                   decoration: ViewDecoration
                                       .inputDecorationWithCurveandColorForage(
-                                          "Age", scaler!),
+                                      "Age", scaler!),
                                   textInputAction: TextInputAction.next,
                                   keyboardType: TextInputType.text,
                                   validator: (value) {
@@ -235,14 +243,14 @@ class _SignUpState extends State<SignUp> {
                               child: Container(
                                 child: TextFormField(
                                   cursorColor:
-                                      ColorConstants.colorButtonbgColor,
+                                  ColorConstants.colorButtonbgColor,
                                   maxLines: 5,
-                                  controller: desccontroller,
+                                  controller: provider.desccontroller,
                                   style: ViewDecoration.textFieldStyle(
                                       scaler!.getTextSize(10)),
                                   decoration:
-                                      ViewDecoration.inputDecorationWithCurve(
-                                          "Description", scaler!),
+                                  ViewDecoration.inputDecorationWithCurve(
+                                      "Description", scaler!),
                                   textInputAction: TextInputAction.next,
                                   keyboardType: TextInputType.text,
                                   validator: (value) {
@@ -259,14 +267,15 @@ class _SignUpState extends State<SignUp> {
                               padding: scaler!.getPaddingLTRB(6, 0.8, 6, 0),
                               child: Container(
                                 child: TextFormField(
+                                  readOnly: true,
                                   cursorColor:
-                                      ColorConstants.colorButtonbgColor,
-                                  controller: _emailController,
+                                  ColorConstants.colorButtonbgColor,
+                                  controller: provider.emailController,
                                   style: ViewDecoration.textFieldStyle(
                                       scaler!.getTextSize(10)),
                                   decoration:
-                                      ViewDecoration.inputDecorationWithCurve(
-                                          "Email", scaler!),
+                                  ViewDecoration.inputDecorationWithCurve(
+                                      "Email", scaler!),
                                   textInputAction: TextInputAction.next,
                                   keyboardType: TextInputType.emailAddress,
                                   validator: (value) {
@@ -282,100 +291,45 @@ class _SignUpState extends State<SignUp> {
                                 ),
                               ),
                             ),
-                            Padding(
-                              padding: scaler!.getPaddingLTRB(6, 0.8, 6, 0),
-                              child: Container(
-                                child: TextFormField(
-                                  cursorColor:
-                                      ColorConstants.colorButtonbgColor,
-                                  controller: _passwordController,
-                                  style: ViewDecoration.textFieldStyle(
-                                      scaler!.getTextSize(10)),
-                                  obscureText: !_passwordVisible,
-                                  decoration: ViewDecoration
-                                      .inputDecorationWithCurveandColor(
-                                    "Password",
-                                    scaler!,
-                                    suffixIcon: IconButton(
-                                      icon: Icon(
-                                        // Based on passwordVisible state choose the icon
-                                        _passwordVisible
-                                            ? Icons.visibility
-                                            : Icons.visibility_off,
-                                        color: Color(0xff828282),
-                                        size: 15,
-                                      ),
-                                      onPressed: () {
-                                        // Update the state i.e. toogle the state of passwordVisible variable
-                                        setState(() {
-                                          _passwordVisible = !_passwordVisible;
-                                        });
-                                      },
-                                    ),
-                                  ),
-                                  textInputAction: TextInputAction.done,
-                                  keyboardType: TextInputType.text,
-                                  validator: (value) {
-                                    if (value!.trim().isEmpty) {
-                                      return 'Empty password';
-                                    } else if (value.length < 6) {
-                                      return 'Enter a password with length at least 6 letters';
-                                    } else {
-                                      return null;
-                                    }
-                                  },
-                                ),
-                              ),
-                            ),
+
                             provider.state == ViewState.Busy
                                 ? Padding(
-                                  padding: scaler!.getPaddingLTRB(0, 1.5, 0, 0),
-                                  child: CircularProgressIndicator(
-                                      valueColor: AlwaysStoppedAnimation<Color>(ColorConstants.colorButtonbgColor)
-                                  ),
-                                ):  Padding(
+                              padding: scaler!.getPaddingLTRB(0, 1.5, 0, 0),
+                              child: CircularProgressIndicator(
+                                  valueColor: AlwaysStoppedAnimation<Color>(ColorConstants.colorButtonbgColor)
+                              ),
+                            ):  Padding(
                               padding: scaler!.getPaddingLTRB(6, 1.5, 6, 0),
                               child: GestureDetector(
                                 onTap: () async {
 
-                                  if(provider.file==''){
-                                    DialogHelper.showMessage(context, 'Please select profile image');
-                                    return;
-                                  }
-                                  if(provider.status!=PermissionStatus.granted){
-
-                                   provider.determinePosition(context);
-                                    return;
-                                  }
-
-
                                   if (_formKey.currentState!.validate()) {
                                     KeyboardHelper.hideKeyboard(context);
                                     provider
-                                        .signup(
+                                        .update(
                                         context,
-                                        fnamecontroller.text.trim(),
-                                        lnamecontroller.text.trim(),
+                                       provider.fnamecontroller.text.trim(),
+                                        provider.lnamecontroller.text.trim(),
                                         provider.datetime.text.trim(),
-                                        desccontroller.text.trim(),
-                                        _emailController.text.trim(),
-                                        _passwordController.text.trim(),
-                                      provider.file,
-                                      provider.lat,
-                                      provider.long
+                                        provider.desccontroller.text.trim(),
+                                        provider.emailController.text.trim(),
+                                        provider.file,
+
 
 
 
                                     ).then((value) {
-                                     if(value){
-                                       DialogHelper.showMessage(context, "Registration successfully");
-                                       Navigator.pushNamedAndRemoveUntil(context, "dashboard", (Route<dynamic> route) => false);
+                                      if(value){
 
-                                     }
+                                        Navigator.pushNamedAndRemoveUntil(context, "dashboard", (Route<dynamic> route) => false);
+                                        DialogHelper.showMessage(context, "Updated successfully");
+
+                                      }
 
 
                                     });
                                   }
+
                                 },
                                 child: Container(
                                   width: MediaQuery.of(context).size.width,
@@ -385,17 +339,17 @@ class _SignUpState extends State<SignUp> {
                                     radius: 8,
                                     child: Padding(
                                       padding:
-                                          scaler!.getPaddingLTRB(0, 0, 0, 0),
+                                      scaler!.getPaddingLTRB(0, 0, 0, 0),
                                       child: Center(
                                         child: Row(
                                           mainAxisAlignment:
-                                              MainAxisAlignment.center,
+                                          MainAxisAlignment.center,
                                           children: [
                                             Padding(
                                               padding: scaler!
                                                   .getPaddingLTRB(0.5, 0, 0, 0),
                                               child: Text(
-                                                'SignUp',
+                                                'Update',
                                               ).buttonText(
                                                   ColorConstants.whiteColor,
                                                   scaler!.getTextSize(11),
@@ -409,42 +363,7 @@ class _SignUpState extends State<SignUp> {
                                 ),
                               ),
                             ),
-                            SizedBox(
-                              height: scaler!.getHeight(1.2),
-                            ),
-                            Padding(
-                              padding: scaler!.getPaddingLTRB(0, 0.8, 0, 1.5),
-                              child: GestureDetector(
-                                onTap: () {
-                                  Navigator.pushNamedAndRemoveUntil(context, "login", (Route<dynamic> route) => false);
-                                },
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                      "Already have an account?",
-                                    ).mediumText(
-                                        ColorConstants.colorTextAppBar,
-                                        scaler!.getTextSize(11),
-                                        TextAlign.center),
-                                    Padding(
-                                      padding:
-                                          scaler!.getPaddingLTRB(0.5, 0, 0, 0),
-                                      child: Column(
-                                        children: [
-                                          Text(
-                                            'Login',
-                                          ).mediumText(
-                                              ColorConstants.colorButtonbgColor,
-                                              scaler!.getTextSize(11.2),
-                                              TextAlign.center),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            )
+
                           ],
                         ),
                       ),

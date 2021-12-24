@@ -22,25 +22,13 @@ class _MapsState extends State<Maps> {
   ScreenScaler? scaler;
 
 
-
-
-
-
-
-
-
-
-
-
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
 
-
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -49,6 +37,7 @@ class _MapsState extends State<Maps> {
     }
     return SafeArea(
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
           backgroundColor: ColorConstants.colorbackground,
           key: _scaffoldKey,
 
@@ -58,22 +47,27 @@ class _MapsState extends State<Maps> {
               provider.getLocations(context);
             },
             builder: (context, provider, _) {
-              return provider.state == ViewState.Busy
-                  ? Center(
-                child: CircularProgressIndicator(
-                    valueColor: AlwaysStoppedAnimation<Color>(ColorConstants.colorButtonbgColor)
-                ),
-              ):GoogleMap(
-                mapType: MapType.normal,
-                  mapToolbarEnabled: false,
+              if(provider.showMap){
+                return  GoogleMap(
 
+                    mapType: MapType.normal,
+                    mapToolbarEnabled: false,
 
-                  markers: Set<Marker>.of(provider.markers),
-                  myLocationEnabled: true,
-                  initialCameraPosition: CameraPosition(
-                    target: LatLng(provider.lat,provider.long),
-                    zoom: 20,
-                  ));
+                    markers: Set<Marker>.of(provider.markers),
+
+                    initialCameraPosition: CameraPosition(
+                      target: LatLng(provider.lat,provider.long),
+                      zoom: 20,
+                    ));
+              }
+              else {
+               return Center(
+                  child: CircularProgressIndicator(
+                      valueColor: AlwaysStoppedAnimation<Color>(ColorConstants.colorButtonbgColor)
+                  ),
+                );
+              }
+
             },
           )),
     );

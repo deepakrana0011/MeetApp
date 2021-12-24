@@ -19,7 +19,7 @@ class ImageConstants {
   static const ic_tiktok = "images/ic_tiktok.svg";
   static const ic_download = "images/ic_download.svg";
   static const ic_erase = "images/ic_erase.svg";
-  static const ic_alert = "images/ic_alert.png";
+  static const ic_alert = "images/ic_alert.svg";
   static const ic_back = "images/ic_back.svg";
   static const ic_maps = "images/ic_map.svg";
 }

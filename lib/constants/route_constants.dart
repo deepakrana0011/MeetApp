@@ -5,5 +5,7 @@ class RoutesConstants {
   static const profile = "profile";
   static const write = "write";
   static const maps = "maps";
+  static const forgot = "forgot";
+  static const editProfile = "editProfile";
 
 }

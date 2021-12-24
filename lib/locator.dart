@@ -1,6 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
+import 'package:meetapp/provider/EditProfileProvider.dart';
 import 'package:meetapp/provider/dashboard_provider.dart';
+import 'package:meetapp/provider/forgot_provider.dart';
 import 'package:meetapp/provider/login_provider.dart';
 import 'package:meetapp/provider/maps_provider.dart';
 import 'package:meetapp/provider/profile_provider.dart';
@@ -20,6 +22,8 @@ void setupLocator() {
   locator.registerFactory(() => ProfileProvider());
   locator.registerFactory(() => WriteProvider());
   locator.registerFactory(() => MapsProvider());
+  locator.registerFactory(() => ForgotProvider());
+  locator.registerFactory(() => EditProfileProvider());
 
   locator.registerLazySingleton<Dio>(() {
     Dio dio = new Dio();

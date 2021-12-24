@@ -21,40 +21,51 @@ class MapsProvider extends BaseProvider {
   double lat = 0.11;
   double long = 0.23;
   BitmapDescriptor? myIcon;
+  bool showMap=false;
 
   void getLngLt(context) {
 
+
     setState(ViewState.Busy);
+
     Geolocator.getCurrentPosition().then((value) {
+
       lat = value.latitude;
       long = value.longitude;
-      print(long);
+
       setState(ViewState.Idle);
     });
   }
 
   Future<bool> getLocations(BuildContext context) async {
-    print(SharedPref.prefs?.getString(SharedPref.USER_ID));
+    Future.delayed(const Duration(milliseconds: 250), () {
+
+      showMap= true;
+
+    });
+    setState(ViewState.Busy);
     BitmapDescriptor.fromAssetImage(ImageConfiguration(size: Size(100, 100)),
         'images/ic_map.png')
         .then((d) {
       myIcon = d;
     });
 
-    setState(ViewState.Busy);
+
     try {
       var model = await api.getLocationResponse();
+      setState(ViewState.Idle);
+
       locations = model.data;
       for(var i=0;i<locations.length;i++){
-        markers.add(Marker(markerId: MarkerId(i.toString()),position: LatLng(locations[i].latitude,locations[i].longitude),
-          visible: true,
-          icon: locations[i].id!= SharedPref.prefs?.getString(SharedPref.USER_ID)? myIcon as BitmapDescriptor:
-          BitmapDescriptor.defaultMarker,
-        ),
-        );
+        if(locations[i].latitude!=null && locations[i].longitude!=null){
+          markers.add(Marker(markerId: MarkerId(i.toString()),position: LatLng(locations[i].latitude,locations[i].longitude),
+            visible: true,
+            icon: locations[i].id!= SharedPref.prefs?.getString(SharedPref.USER_ID)? myIcon as BitmapDescriptor:
+            BitmapDescriptor.defaultMarker,
+          ),
+          );
+        }
       }
-
-      setState(ViewState.Idle);
       return true;
     } on FetchDataException catch (c) {
       setState(ViewState.Idle);
@@ -62,8 +73,10 @@ class MapsProvider extends BaseProvider {
       return false;
     } on SocketException catch (c) {
       setState(ViewState.Idle);
-      DialogHelper.showMessage(context, 'internet connection');
-
+      DialogHelper.showMessage(context, 'Internet connection');
+      return false;
+    } on Exception catch(c){
+      DialogHelper.showMessage(context, c.toString());
       return false;
     }
   }
@@ -71,27 +84,14 @@ class MapsProvider extends BaseProvider {
 
 
 
-
-
-
-
-
-
-
-
-
   void onMapCreated(GoogleMapController controller) {
 
-
     markers.add(Marker(markerId: MarkerId("id-1"),position: LatLng(30.7089889,76.6837099),
-
 
       visible: true,
       icon: BitmapDescriptor.defaultMarker,
     ),
 
-
     );
-
   }
 }

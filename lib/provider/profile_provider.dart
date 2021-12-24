@@ -12,7 +12,7 @@ import 'package:meetapp/service/FetchDataExpection.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfileProvider extends BaseProvider{
-   GetProfileResponse? profile;
+   late GetProfileResponse profile;
   List date=[];
   List date2=[];
   var datetime;
@@ -26,6 +26,13 @@ class ProfileProvider extends BaseProvider{
     try {
       var model = await api.getProfileResponse();
       profile = model;
+      SharedPref.prefs?.setString(SharedPref.FIRST_NAME, model.data.firstName);
+
+      SharedPref.prefs?.setString(SharedPref.LAST_NAME, model.data.lastName);
+      SharedPref.prefs?.setString(SharedPref.profile_pic, model.data.profilePic);
+      SharedPref.prefs?.setString(SharedPref.DESCRIPTION, model.data.description);
+      SharedPref.prefs?.setString(SharedPref.AGE, model.data.dob);
+      SharedPref.prefs?.setString(SharedPref.Email, model.data.email);
       getDateTime(context);
 
       setState(ViewState.Idle);
@@ -36,7 +43,7 @@ class ProfileProvider extends BaseProvider{
       return false;
     } on SocketException catch (c) {
       setState(ViewState.Idle);
-      DialogHelper.showMessage(context, 'internet connection');
+      DialogHelper.showMessage(context, 'Internet connection');
 
       return false;
     }
@@ -47,7 +54,7 @@ class ProfileProvider extends BaseProvider{
     var formatter = new DateFormat('yyyy-MM-dd');
     String formattedDate = formatter.format(now);
     date= formattedDate.split('-');
-    date2=profile!.data.dob.split('-');
+    date2=profile.data.dob.split('-');
    datetime=int.parse(date[0])-int.parse(date2[2]);
 
 
@@ -55,12 +62,12 @@ class ProfileProvider extends BaseProvider{
   }
 
   Future<bool> updateLocation(BuildContext context) async {
-    setState(ViewState.Busy);
+
 
     try {
       var model = await api.updateLocation(context, lat, long);
       if (model.success) {
-        setState(ViewState.Idle);
+
         return true;
       } else {
         DialogHelper.showMessage(context, model.message);
@@ -110,6 +117,7 @@ class ProfileProvider extends BaseProvider{
       return Future.error(
           'Location permissions are permanently denied, we cannot request permissions.');
     }
+
     getLngLt(context);
 
     // When we reach here, permissions are granted and we can

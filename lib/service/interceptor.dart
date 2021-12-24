@@ -3,13 +3,7 @@ import 'package:dio/dio.dart';
 class AuthInterceptor implements InterceptorsWrapper {
   @override
   Future onRequest(RequestOptions options,RequestInterceptorHandler handler) async {
-   /* bool result = await DataConnectionChecker().hasConnection;
-    if (!result) {
-      DioError error=DioError();
-      error.response=Response(data: {"error": "Please check your internet connection"},
-      );
-      throw Exception(error);
-    }*/
+
     return options;
   }
 
