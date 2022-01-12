@@ -22,4 +22,20 @@ class ImageConstants {
   static const ic_alert = "images/ic_alert.svg";
   static const ic_back = "images/ic_back.svg";
   static const ic_maps = "images/ic_map.svg";
+  static const ic_privacy = "images/ic_privacy_policy.svg";
+  static const ic_contacts = "images/ic_contacts.svg";
+  static const ic_website = "images/ic_website.svg";
+  static const ic_contact_profile = "images/ic_contacts_profile.png";
+  static const ic_contact_profile1 = "images/ic_contact_profile1.png";
+  static const ic_contact_profile2 = "images/ic_contact_profile2.png";
+  static const ic_contact_profile3 = "images/ic_contact_profile3.png";
+  static const ic_contact_profile4 = "images/ic_contact_profile4.png";
+  static const ic_contact_profile5 = "images/ic_contact_profile5.png";
+  static const ic_contact_profile6 = "images/ic_contact_profile6.png";
+  static const ic_contact_profile7 = "images/ic_contact_profile7.png";
+
+
+
+
+
 }

@@ -27,7 +27,6 @@ class _MapsState extends State<Maps> {
   void initState() {
     // TODO: implement initState
     super.initState();
-
   }
 
   @override

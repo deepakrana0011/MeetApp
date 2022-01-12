@@ -16,7 +16,7 @@ Future<void> main() async {
   SharedPref.prefs = await SharedPreferences.getInstance();
 
   SystemChrome.setSystemUIOverlayStyle(
-      SystemUiOverlayStyle(statusBarColor: ColorConstants.colorbackground));
+      SystemUiOverlayStyle(statusBarColor: ColorConstants.whiteColor));
 
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);

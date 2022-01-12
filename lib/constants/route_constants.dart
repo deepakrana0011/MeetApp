@@ -7,5 +7,12 @@ class RoutesConstants {
   static const maps = "maps";
   static const forgot = "forgot";
   static const editProfile = "editProfile";
+  static const privacypolicy="privacypolicy";
+  static const verification="verification";
+  static const contacts="contacts";
+  static const ContactDetail="ContactDetail";
+
+
+
 
 }

@@ -5,7 +5,6 @@ class ColorConstants {
 
   static var primaryColor = Color(0xFF1C67D3);
   static var whiteColor = Color(0xFFFFFFFF);
-
   static const Color gray = Color(0XFFC7cdd2);
   static const Color border = Color(0XFFE0E0E0);
   static const Color colorLightGray = Color(0XFFF4F4F4);
@@ -25,6 +24,7 @@ class ColorConstants {
   static const Color colorButtonbgColor=Color(0XFFC91C1C);
   static const Color colorprofileTextColor=Color(0XFF4F4F4F);
   static const Color colorwritebutton=Color(0XFFBC1E2D);
+  static const Color colorverificationresendText=Color(0xff736E6E);
 
 
 

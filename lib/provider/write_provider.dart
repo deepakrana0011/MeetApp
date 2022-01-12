@@ -142,6 +142,7 @@ class WriteProvider extends BaseProvider {
   }
 
   Future<String> writeNdef(NfcTag tag) async {
+
     var id=SharedPref.prefs?.getString(SharedPref.USER_ID);
 
       final tech = Ndef.from(tag);

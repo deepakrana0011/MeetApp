@@ -46,13 +46,16 @@ extension ExtendText on Text {
   }
 
 
-  regularText(Color color, double textSize, {maxLines, overflow,textAlign}) {
+  regularText(Color color, double textSize, {maxLines, overflow,textAlign,TextDecoration? decoration}) {
     return Text(
       this.data!,
       maxLines: maxLines,
       overflow: overflow,
       textAlign: textAlign,
       style: TextStyle(
+        height: 2,
+          decoration: decoration,
+
           color: color,
           fontFamily: "popins",
           fontWeight: FontWeight.w400,

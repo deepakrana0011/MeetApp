@@ -36,6 +36,8 @@ class _SignUpState extends State<SignUp> {
   final _passwordController = TextEditingController();
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   bool _passwordVisible = false;
+  bool checkboxValue =false;
+  bool privacypolicy=true;
 
 
   @override
@@ -154,7 +156,7 @@ class _SignUpState extends State<SignUp> {
                         child: Column(
                           children: [
                             Padding(
-                              padding: scaler!.getPaddingLTRB(6, 0.8, 6, 0),
+                              padding: scaler!.getPaddingLTRB(6, 0, 6, 0),
                               child: Container(
                                 child: TextFormField(
                                   textCapitalization: TextCapitalization.sentences,
@@ -236,7 +238,7 @@ class _SignUpState extends State<SignUp> {
                                 child: TextFormField(
                                   cursorColor:
                                       ColorConstants.colorButtonbgColor,
-                                  maxLines: 5,
+                                  maxLines: 4,
                                   controller: desccontroller,
                                   style: ViewDecoration.textFieldStyle(
                                       scaler!.getTextSize(10)),
@@ -327,29 +329,66 @@ class _SignUpState extends State<SignUp> {
                                 ),
                               ),
                             ),
+                        CheckboxListTile(
+                          value: checkboxValue,
+
+                          title: Transform.translate(
+                            offset: const Offset(-15, 0),
+                            child: Wrap(
+                              children: [
+                                new Text(
+                                  'I agree to terms and conditions and ',
+                                  
+                                ).regularText(ColorConstants.colorTextAppBar, scaler!.getTextSize(9)),
+                                 GestureDetector(
+                                   onTap: (){
+                                     Navigator.of(context).pushNamed(RoutesConstants.privacypolicy,
+                                     arguments: privacypolicy);
+
+                                   },
+                                   child: Text(
+                                     'Privacy & Policy',
+
+                                   ).mediumText(ColorConstants.colorButtonbgColor, scaler!.getTextSize(9),TextAlign.left),
+                                 )
+
+                              ],
+                            ),
+                          ),
+                          controlAffinity: ListTileControlAffinity.leading,
+                          activeColor: ColorConstants.colorButtonbgColor, onChanged: (bool? value) {
+                          setState(() {
+                            checkboxValue = value!;
+                          });
+                        },
+                        ),
                             provider.state == ViewState.Busy
                                 ? Padding(
-                                  padding: scaler!.getPaddingLTRB(0, 1.5, 0, 0),
+                                  padding: scaler!.getPaddingLTRB(0, 0, 0, 0),
                                   child: CircularProgressIndicator(
                                       valueColor: AlwaysStoppedAnimation<Color>(ColorConstants.colorButtonbgColor)
                                   ),
                                 ):  Padding(
-                              padding: scaler!.getPaddingLTRB(6, 1.5, 6, 0),
+                              padding: scaler!.getPaddingLTRB(6, 0, 6, 0),
                               child: GestureDetector(
                                 onTap: () async {
-
-                                  if(provider.file==''){
+                                  Navigator.of(context).pushNamed(RoutesConstants.verification,
+                                      );
+                                 /* if(provider.file==''){
                                     DialogHelper.showMessage(context, 'Please select profile image');
-                                    return;
+
                                   }
-                                  if(provider.status!=PermissionStatus.granted){
+                                  else if(provider.status!=PermissionStatus.granted){
 
                                    provider.determinePosition(context);
-                                    return;
+
+                                  }
+                                  else if(checkboxValue==false){
+                                    DialogHelper.showMessage(context, 'Please agree to terms and conditions');
                                   }
 
 
-                                  if (_formKey.currentState!.validate()) {
+                                  else if (_formKey.currentState!.validate()) {
                                     KeyboardHelper.hideKeyboard(context);
                                     provider
                                         .signup(
@@ -375,7 +414,7 @@ class _SignUpState extends State<SignUp> {
 
 
                                     });
-                                  }
+                                  }*/
                                 },
                                 child: Container(
                                   width: MediaQuery.of(context).size.width,
@@ -413,7 +452,7 @@ class _SignUpState extends State<SignUp> {
                               height: scaler!.getHeight(1.2),
                             ),
                             Padding(
-                              padding: scaler!.getPaddingLTRB(0, 0.8, 0, 1.5),
+                              padding: scaler!.getPaddingLTRB(0, 0, 0, 1.5),
                               child: GestureDetector(
                                 onTap: () {
                                   Navigator.pushNamedAndRemoveUntil(context, "login", (Route<dynamic> route) => false);

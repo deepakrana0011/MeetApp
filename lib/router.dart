@@ -2,8 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:meetapp/view/auth/forgot_password.dart';
 import 'package:meetapp/view/auth/login.dart';
 import 'package:meetapp/view/auth/sign_up.dart';
+import 'package:meetapp/view/auth/verification.dart';
+import 'package:meetapp/view/contacts/contact_detail.dart';
+import 'package:meetapp/view/contacts/contacts.dart';
 import 'package:meetapp/view/dashboard/dasboard.dart';
 import 'package:meetapp/view/maps/maps.dart';
+import 'package:meetapp/view/privacy_policy/privacy_policy.dart';
 import 'package:meetapp/view/profile/edit_profile.dart';
 import 'package:meetapp/view/profile/profile.dart';
 import 'package:meetapp/view/write/write.dart';
@@ -48,6 +52,25 @@ class Router {
       case RoutesConstants.editProfile:
         return MaterialPageRoute(
             builder: (_) => EditProfile(), settings: settings);
+
+      case RoutesConstants.verification:
+        return MaterialPageRoute(
+            builder: (_) => Verification(), settings: settings);
+
+      case RoutesConstants.contacts:
+        return MaterialPageRoute(
+            builder: (_) => Contacts(), settings: settings);
+
+      case RoutesConstants.ContactDetail:
+        return MaterialPageRoute(
+            builder: (_) => ContactDetail(), settings: settings);
+
+
+      case RoutesConstants.privacypolicy:
+        return MaterialPageRoute(
+            builder: (_) => PrivacyPolicy(
+              privacypolicy:settings.arguments as bool
+            ), settings: settings);
 
 
       default:

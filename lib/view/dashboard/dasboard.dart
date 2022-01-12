@@ -12,7 +12,9 @@ import 'package:meetapp/provider/dashboard_provider.dart';
 import 'package:meetapp/provider/profile_provider.dart';
 import 'package:meetapp/view/base_view.dart';
 import 'package:meetapp/extensions/allExtensions.dart';
+import 'package:meetapp/view/contacts/contacts.dart';
 import 'package:meetapp/view/maps/maps.dart';
+import 'package:meetapp/view/privacy_policy/privacy_policy.dart';
 import 'package:meetapp/view/profile/profile.dart';
 import 'package:meetapp/view/write/write.dart';
 import 'package:meetapp/widgets/image_view.dart';
@@ -32,12 +34,18 @@ class _DashBoardState extends State<DashBoard> {
     'Profile',
     'Write',
     'Maps',
+    'Contacts',
+    'Privacy Policy',
+    'Website',
     'SignOut'
   ];
   List<String> menuIcons = [
     ImageConstants.ic_profile_logo,
     ImageConstants.ic_write_logo,
     ImageConstants.ic_maps_logo,
+    ImageConstants.ic_contacts,
+    ImageConstants.ic_privacy,
+    ImageConstants.ic_website,
     ImageConstants.ic_logout
 
   ];
@@ -46,6 +54,10 @@ class _DashBoardState extends State<DashBoard> {
     //NotificationPage(),
     Write(),
     Maps(),
+    Contacts(),
+    PrivacyPolicy(
+      privacypolicy: false,
+    )
 
   ];
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
@@ -139,14 +151,18 @@ class _DashBoardState extends State<DashBoard> {
                     itemBuilder: (context, position) {
                       return GestureDetector(
                         onTap: () {
-                          if (position == 3) {
+                          if (position == 6) {
                             DialogHelper.showDialogWithTwoButtons(context, 'Signout', 'Yes', 'Cancel', 'Are you sure you want to signout?',
                                 positiveButtonPress: (){
                                   _signOut();
                                 }, negativeButtonPress: () {
                                   Navigator.pop(context);
                                 });
-                          } else {
+                          }
+                          else if(position ==5){
+                            Navigator.pop(context);
+                          }
+                          else {
                             Navigator.pop(context);
                             setState(() {
                               currentPosition = position;
