@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:meetapp/enum/viewstate.dart';
 import 'package:meetapp/helper/dialog_helper.dart';
@@ -16,12 +17,21 @@ class LoginProvider extends BaseProvider{
   Future<bool> login(BuildContext context, String email, String password) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(ViewState.Busy);
+    SharedPref.prefs!.setString(SharedPref.Email,email);
 
     try {
       var model = await api.login(context,email,password);
       if(model.success){
         SharedPref.prefs?.setString(SharedPref.TOKEN, model.token);
         SharedPref.prefs?.setString(SharedPref.USER_ID, model.data!.id);
+        if(model.data!.verifyStatus==1){
+          Navigator.pushNamedAndRemoveUntil(context, "dashboard", (Route<dynamic> route) => false);
+
+        }
+        else{
+          Navigator.pushNamedAndRemoveUntil(context, "verification", (Route<dynamic> route) => false);
+        }
+
 
         setState(ViewState.Idle);
         return true;

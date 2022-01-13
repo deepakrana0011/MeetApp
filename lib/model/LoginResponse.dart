@@ -38,6 +38,8 @@ class Data {
     required this.status,
     required this.longitude,
     required this.latitude,
+    this.verifyToken,
+    required this.verifyStatus,
     required this.createdAt,
     required this.profilePic,
     required this.v,
@@ -53,14 +55,16 @@ class Data {
   int status;
   double longitude;
   double latitude;
+  dynamic verifyToken;
+  int verifyStatus;
   DateTime createdAt;
   String profilePic;
   int v;
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
-    id: json["_id"]??"",
-    firstName: json["firstName"]??"",
-    lastName: json["lastName"]??"",
+    id: json["_id"],
+    firstName: json["firstName"],
+    lastName: json["lastName"],
     dob: json["dob"],
     email: json["email"],
     description: json["description"],
@@ -68,6 +72,8 @@ class Data {
     status: json["status"],
     longitude: json["longitude"].toDouble(),
     latitude: json["latitude"].toDouble(),
+    verifyToken: json["verifyToken"],
+    verifyStatus: json["verifyStatus"],
     createdAt: DateTime.parse(json["createdAt"]),
     profilePic: json["profilePic"],
     v: json["__v"],
@@ -84,6 +90,8 @@ class Data {
     "status": status,
     "longitude": longitude,
     "latitude": latitude,
+    "verifyToken": verifyToken,
+    "verifyStatus": verifyStatus,
     "createdAt": createdAt.toIso8601String(),
     "profilePic": profilePic,
     "__v": v,

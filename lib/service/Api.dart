@@ -15,10 +15,12 @@ import 'package:meetapp/model/GetLocationResponse.dart';
 import 'package:meetapp/model/GetProfileResponse.dart';
 import 'package:meetapp/model/Links.dart';
 import 'package:meetapp/model/LoginResponse.dart';
+import 'package:meetapp/model/ResendResponse.dart';
 import 'package:meetapp/model/SignupResponse.dart';
 import 'package:meetapp/model/UpdateLinkResponse.dart';
 import 'package:meetapp/model/UpdateLocationResponse.dart';
 import 'package:meetapp/model/UpdateUserResponse.dart';
+import 'package:meetapp/model/VerifyResponse.dart';
 import 'package:meetapp/service/FetchDataExpection.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../locator.dart';
@@ -27,7 +29,7 @@ class Api {
   var client = new http.Client();
   Dio dio = locator<Dio>();
 
-  Future<SignupResponse> signup(
+  Future<SignUpResponse> signup(
       BuildContext context,
       String fname,
       String lname,
@@ -61,7 +63,7 @@ class Api {
           data: FormData.fromMap(map));
 
 
-      return SignupResponse.fromJson(json.decode(response.toString()));
+      return SignUpResponse.fromJson(json.decode(response.toString()));
     } on DioError catch (e) {
       if (e.response != null) {
         var errorData = jsonDecode(e.response.toString());
@@ -302,6 +304,41 @@ class Api {
       var response =
       await dio.post(ApiConstants.BASE_URL + ApiConstants.FORGOT_PASSWORD, data: map);
       return ForgotPasswordResponse.fromJson(json.decode(response.toString()));
+    } on DioError catch (e) {
+      if (e.response != null) {
+        var errorData = jsonDecode(e.response.toString());
+        var errorMessage = errorData["error"];
+        throw FetchDataException(errorMessage);
+      } else {
+        throw SocketException("");
+      }
+    }
+  }
+  Future<VerifyResponse> verify(
+      BuildContext context, int code,) async {
+    try {
+      var map = {"email": SharedPref.prefs!.getString(SharedPref.Email), "verifyToken": code};
+      var response =
+      await dio.post(ApiConstants.BASE_URL + ApiConstants.verify, data: map);
+      return VerifyResponse.fromJson(json.decode(response.toString()));
+    } on DioError catch (e) {
+      if (e.response != null) {
+        var errorData = jsonDecode(e.response.toString());
+        var errorMessage = errorData["error"];
+        throw FetchDataException(errorMessage);
+      } else {
+        throw SocketException("");
+      }
+    }
+  }
+
+  Future<ResendResponse> resend(
+      BuildContext context) async {
+    try {
+      var map = {"email": SharedPref.prefs!.getString(SharedPref.Email),};
+      var response =
+      await dio.put(ApiConstants.BASE_URL + ApiConstants.resend, data: map);
+      return ResendResponse.fromJson(json.decode(response.toString()));
     } on DioError catch (e) {
       if (e.response != null) {
         var errorData = jsonDecode(e.response.toString());

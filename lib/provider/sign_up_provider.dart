@@ -90,14 +90,18 @@ class SignUpProvider extends BaseProvider{
 
   Future<bool> signup(BuildContext context, fname,lname, age, description, email, password, file,latitude,longitude) async {
 
-      SharedPreferences prefs = await SharedPreferences.getInstance();
+
       setState(ViewState.Busy);
+       SharedPref.prefs!.setString(SharedPref.Email,email);
 
       try {
         var model = await api.signup(context,fname,lname,age,description,email, password,file,latitude,longitude);
         if(model.success){
           SharedPref.prefs?.setString(SharedPref.TOKEN, model.token);
-          SharedPref.prefs?.setString(SharedPref.USER_ID, model.data!.id);
+          SharedPref.prefs?.setString(SharedPref.TOKEN, model.data!.id);
+
+          Navigator.pushNamedAndRemoveUntil(context, "verification", (Route<dynamic> route) => false);
+          DialogHelper.showMessage(context, model.message);
 
           setState(ViewState.Idle);
           return true;

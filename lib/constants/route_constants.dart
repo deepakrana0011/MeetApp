@@ -13,6 +13,4 @@ class RoutesConstants {
   static const ContactDetail="ContactDetail";
 
 
-
-
 }

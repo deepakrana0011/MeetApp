@@ -11,6 +11,7 @@ import 'package:meetapp/constants/validations.dart';
 import 'package:meetapp/enum/viewstate.dart';
 import 'package:meetapp/helper/dialog_helper.dart';
 import 'package:meetapp/helper/keyboard_helper.dart';
+import 'package:meetapp/helper/shared_pref.dart';
 import 'package:meetapp/provider/login_provider.dart';
 import 'package:meetapp/provider/verification_provider.dart';
 import 'package:meetapp/view/base_view.dart';
@@ -140,16 +141,23 @@ class _VerificationState extends State<Verification> {
                                     Padding(
                                       padding:
                                       scaler!.getPaddingLTRB(0, 0, 0, 0),
-                                      child: Column(
-                                        children: [
-                                          Text(
-                                            'Send again the code ',
-                                          ).regularText(
-                                              ColorConstants.colorverificationresendText,
-                                              scaler!.getTextSize(10),
-                                            decoration: TextDecoration.underline
-                                              ),
-                                        ],
+                                      child: GestureDetector(
+                                        onTap: (){
+                                          //print(SharedPref.prefs!.getString(SharedPref.Email));
+                                          provider.resendCode(context,
+                                          );
+                                        },
+                                        child: Column(
+                                          children: [
+                                            Text(
+                                              'Send again the code ',
+                                            ).regularText(
+                                                ColorConstants.colorverificationresendText,
+                                                scaler!.getTextSize(10),
+                                              decoration: TextDecoration.underline
+                                                ),
+                                          ],
+                                        ),
                                       ),
                                     ),
                                   ],
@@ -164,6 +172,11 @@ class _VerificationState extends State<Verification> {
                                 onTap: () {
                                   if(codecontrolller.text==''){
                                     DialogHelper.showMessage(context, 'Please enter verification code');
+                                  }
+                                  else{
+                                    KeyboardHelper.hideKeyboard(context);
+                                    provider.verifyCode(context,
+                                    int.parse(codecontrolller.text));
                                   }
                                 },
                                 child: Container(

@@ -13,4 +13,6 @@ class ApiConstants{
   static const UPDATE_LOCATION ='updateuserlocation';
   static const NFC_URL='http://18.130.225.164/#/meet/';
   static const FORGOT_PASSWORD='forgotpassword';
+  static const verify ='verifytoken';
+  static const resend="resendtoken";
 }

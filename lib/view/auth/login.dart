@@ -218,7 +218,6 @@ class _LoginPageState extends State<LoginPage> {
                                      _passwordController.text.trim()
                                    ).then((value) {
                                      if(value){
-                                       Navigator.pushNamedAndRemoveUntil(context, "dashboard", (Route<dynamic> route) => false);
 
                                      }
                                    });

@@ -372,9 +372,9 @@ class _SignUpState extends State<SignUp> {
                               padding: scaler!.getPaddingLTRB(6, 0, 6, 0),
                               child: GestureDetector(
                                 onTap: () async {
-                                  Navigator.of(context).pushNamed(RoutesConstants.verification,
-                                      );
-                                 /* if(provider.file==''){
+                                  /*Navigator.of(context).pushNamed(RoutesConstants.verification,
+                                      );*/
+                                  if(provider.file==''){
                                     DialogHelper.showMessage(context, 'Please select profile image');
 
                                   }
@@ -407,14 +407,13 @@ class _SignUpState extends State<SignUp> {
 
                                     ).then((value) {
                                      if(value){
-                                       DialogHelper.showMessage(context, "Registration successfully");
-                                       Navigator.pushNamedAndRemoveUntil(context, "dashboard", (Route<dynamic> route) => false);
+
 
                                      }
 
 
                                     });
-                                  }*/
+                                  }
                                 },
                                 child: Container(
                                   width: MediaQuery.of(context).size.width,
