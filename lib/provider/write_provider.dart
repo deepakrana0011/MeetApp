@@ -154,6 +154,7 @@ class WriteProvider extends BaseProvider {
       if (!tech.isWritable)
         throw('Tag is not ndef writable.');
 
+
       try {
         final message = NdefMessage(
             [
