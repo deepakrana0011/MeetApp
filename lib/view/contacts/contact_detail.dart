@@ -15,6 +15,7 @@ import 'package:meetapp/widgets/imagePickerDialog.dart';
 import 'package:meetapp/widgets/image_view.dart';
 import 'package:meetapp/widgets/roundCornerShape.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:uni_links/uni_links.dart';
 
 class ContactDetail extends StatefulWidget {
   @override
@@ -62,7 +63,9 @@ class _ContactDetailState extends State<ContactDetail> {
           backgroundColor: ColorConstants.whiteColor,
           key: _scaffoldKey,
           body: BaseView<ContactDetailProvider>(
-            onModelReady: (provider) {},
+            onModelReady: (provider) {
+
+            },
             builder: (context, provider, _) {
               return SingleChildScrollView(
                 child: Column(
@@ -197,6 +200,8 @@ class _ContactDetailState extends State<ContactDetail> {
       ),
     );
   }
+
+
 }
 
 //

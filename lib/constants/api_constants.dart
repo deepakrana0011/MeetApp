@@ -1,5 +1,4 @@
 class ApiConstants{
-
   static const BASE_URL ='http://18.130.225.164:8080/users/';
   static const IMAGE_URL ='http://18.130.225.164:8080/';
   static const SIGNUP ='register';

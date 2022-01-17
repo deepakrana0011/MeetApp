@@ -147,7 +147,6 @@ class WriteProvider extends BaseProvider {
 
       final tech = Ndef.from(tag);
 
-
       if (tech == null)
         throw('Tag is not ndef.');
 
@@ -183,7 +182,6 @@ class WriteProvider extends BaseProvider {
     try {
       final message = NdefMessage(
           [
-
             NdefRecord.createText(''),
           ]);
       await tech.write(message);
@@ -192,7 +190,6 @@ class WriteProvider extends BaseProvider {
     }on PlatformException catch (e) {
       throw(e.message ?? 'Some error has occurred.');
     }
-
     return '[Ndef - Tag] is clear.';
   }
 

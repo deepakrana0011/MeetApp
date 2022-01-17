@@ -57,7 +57,8 @@
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data
                     android:scheme="http"
-                    android:host="18.130.225.164/#/meet"/>
+                    android:host="18.130.225.164"
+                    android:pathPrefix="#/meet"/>
             </intent-filter>
         </activity>
         <!-- Don't delete the meta-data below.

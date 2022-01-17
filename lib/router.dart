@@ -65,6 +65,11 @@ class Router {
         return MaterialPageRoute(
             builder: (_) => ContactDetail(), settings: settings);
 
+      case RoutesConstants.deeplink:
+        return MaterialPageRoute(
+            builder: (_) => ContactDetail(), settings: settings);
+
+
 
       case RoutesConstants.privacypolicy:
         return MaterialPageRoute(
