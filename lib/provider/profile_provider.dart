@@ -1,27 +1,33 @@
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:intl/intl.dart';
+import 'package:meetapp/constants/route_constants.dart';
+import 'package:meetapp/constants/route_constants.dart';
 import 'package:meetapp/enum/viewstate.dart';
 import 'package:meetapp/helper/dialog_helper.dart';
 import 'package:meetapp/helper/shared_pref.dart';
 import 'package:meetapp/model/GetProfileResponse.dart';
 import 'package:meetapp/provider/base_provider.dart';
 import 'package:meetapp/service/FetchDataExpection.dart';
+import 'package:meetapp/view/contacts/contacts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:uni_links/uni_links.dart';
 
-class ProfileProvider extends BaseProvider{
-   late GetProfileResponse profile;
-  List date=[];
-  List date2=[];
+class ProfileProvider extends BaseProvider {
+  late GetProfileResponse profile;
+  List date = [];
+  List date2 = [];
   var datetime;
   double? lat;
   double? long;
+  Uri? latestLink;
+  GlobalKey<NavigatorState> navigatorKey = GlobalKey();
 
 
   Future<bool> getProfile(BuildContext context) async {
-
     setState(ViewState.Busy);
     try {
       var model = await api.getProfileResponse();
@@ -29,8 +35,10 @@ class ProfileProvider extends BaseProvider{
       SharedPref.prefs?.setString(SharedPref.FIRST_NAME, model.data.firstName);
 
       SharedPref.prefs?.setString(SharedPref.LAST_NAME, model.data.lastName);
-      SharedPref.prefs?.setString(SharedPref.profile_pic, model.data.profilePic);
-      SharedPref.prefs?.setString(SharedPref.DESCRIPTION, model.data.description);
+      SharedPref.prefs?.setString(
+          SharedPref.profile_pic, model.data.profilePic);
+      SharedPref.prefs?.setString(
+          SharedPref.DESCRIPTION, model.data.description);
       SharedPref.prefs?.setString(SharedPref.AGE, model.data.dob);
       SharedPref.prefs?.setString(SharedPref.Email, model.data.email);
       getDateTime(context);
@@ -53,21 +61,15 @@ class ProfileProvider extends BaseProvider{
     var now = new DateTime.now();
     var formatter = new DateFormat('yyyy-MM-dd');
     String formattedDate = formatter.format(now);
-    date= formattedDate.split('-');
-    date2=profile.data.dob.split('-');
-   datetime=int.parse(date[0])-int.parse(date2[2]);
-
-
-
+    date = formattedDate.split('-');
+    date2 = profile.data.dob.split('-');
+    datetime = int.parse(date[0]) - int.parse(date2[2]);
   }
 
   Future<bool> updateLocation(BuildContext context) async {
-
-
     try {
       var model = await api.updateLocation(context, lat, long);
       if (model.success) {
-
         return true;
       } else {
         DialogHelper.showMessage(context, model.message);
@@ -75,7 +77,6 @@ class ProfileProvider extends BaseProvider{
         return false;
       }
     } on FetchDataException catch (c) {
-
       setState(ViewState.Idle);
       DialogHelper.showMessage(context, c.toString());
       return false;
@@ -127,10 +128,25 @@ class ProfileProvider extends BaseProvider{
 
   void getLngLt(context) {
     Geolocator.getCurrentPosition().then((value) {
-      lat=value.latitude;
-      long=value.longitude;
-     updateLocation(context);
+      lat = value.latitude;
+      long = value.longitude;
+      updateLocation(context);
     });
   }
+
+  Future<void> getLinks(BuildContext context) async {
+    if(SharedPref.prefs?.getString(SharedPref.TOKEN) != null){
+      getLinksStream().listen(( event) {
+        final link=  event.split('/');
+        WidgetsBinding.instance?.addPostFrameCallback((_) {
+          Navigator.of(context).pushReplacementNamed(RoutesConstants.deeplink,
+          );
+        });
+
+      });
+    }
+
+  }
+
 
 }

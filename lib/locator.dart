@@ -9,6 +9,7 @@ import 'package:meetapp/provider/login_provider.dart';
 import 'package:meetapp/provider/maps_provider.dart';
 import 'package:meetapp/provider/privacy_policy_provider.dart';
 import 'package:meetapp/provider/profile_provider.dart';
+import 'package:meetapp/provider/save_token.dart';
 import 'package:meetapp/provider/sign_up_provider.dart';
 import 'package:meetapp/provider/verification_provider.dart';
 import 'package:meetapp/provider/write_provider.dart';
@@ -19,6 +20,7 @@ GetIt locator = GetIt.instance;
 
 void setupLocator() {
   locator.registerLazySingleton(() => Api());
+  locator.registerLazySingleton<SaveToken>(() => SaveToken());
 
   locator.registerFactory(() => LoginProvider());
   locator.registerFactory(() => SignUpProvider());

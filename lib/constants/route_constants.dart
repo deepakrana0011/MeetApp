@@ -12,5 +12,5 @@ class RoutesConstants {
   static const verification="verification";
   static const contacts="contacts";
   static const ContactDetail="ContactDetail";
-  static const deeplink="/#/meet/";
+  static const deeplink="deeplink";
 }

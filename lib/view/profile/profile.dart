@@ -43,6 +43,7 @@ class _ProfileState extends State<Profile> {
 
           body: BaseView<ProfileProvider>(
             onModelReady: (provider) {
+              provider.getLinks(context);
               provider.determinePosition(context);
               provider.getProfile(context);
 

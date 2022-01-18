@@ -10,7 +10,9 @@ import 'package:meetapp/enum/viewstate.dart';
 import 'package:meetapp/helper/date_function.dart';
 import 'package:meetapp/helper/dialog_helper.dart';
 import 'package:meetapp/helper/shared_pref.dart';
+import 'package:meetapp/locator.dart';
 import 'package:meetapp/provider/base_provider.dart';
+import 'package:meetapp/provider/save_token.dart';
 import 'package:meetapp/service/FetchDataExpection.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -27,6 +29,7 @@ class SignUpProvider extends BaseProvider{
 
   bool get isPasswordVisible => _isPasswordVisible;
   final datetime=new TextEditingController();
+  SaveToken saveToken= locator<SaveToken>();
 
 
 
@@ -97,8 +100,8 @@ class SignUpProvider extends BaseProvider{
       try {
         var model = await api.signup(context,fname,lname,age,description,email, password,file,latitude,longitude);
         if(model.success){
-          SharedPref.prefs?.setString(SharedPref.TOKEN, model.token);
-          SharedPref.prefs?.setString(SharedPref.TOKEN, model.data!.id);
+          saveToken.registerToken=model.token;
+          saveToken.id=model.data!.id;
 
           Navigator.pushNamedAndRemoveUntil(context, "verification", (Route<dynamic> route) => false);
           DialogHelper.showMessage(context, model.message);

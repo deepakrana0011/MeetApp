@@ -8,9 +8,11 @@ import 'package:meetapp/helper/shared_pref.dart';
 import 'package:meetapp/locator.dart';
 import 'package:meetapp/router.dart' as router;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:uni_links/uni_links.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
 
 
   SharedPref.prefs = await SharedPreferences.getInstance();
@@ -27,6 +29,8 @@ Future<void> main() async {
 
   setupLocator();
 }
+
+
 
 class MyApp extends StatelessWidget {
   SharedPreferences? prefs;

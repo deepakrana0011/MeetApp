@@ -21,6 +21,7 @@ import 'package:meetapp/model/UpdateLinkResponse.dart';
 import 'package:meetapp/model/UpdateLocationResponse.dart';
 import 'package:meetapp/model/UpdateUserResponse.dart';
 import 'package:meetapp/model/VerifyResponse.dart';
+import 'package:meetapp/provider/save_token.dart';
 import 'package:meetapp/service/FetchDataExpection.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../locator.dart';
@@ -28,6 +29,8 @@ import '../locator.dart';
 class Api {
   var client = new http.Client();
   Dio dio = locator<Dio>();
+  SaveToken saveToken= locator<SaveToken>();
+
 
   Future<SignUpResponse> signup(
       BuildContext context,
@@ -99,12 +102,12 @@ class Api {
     try {
       var headerMap = {
         "Content-Type": "application/json",
-        "Authorization": prefs.getString('token'),
+        "Authorization": saveToken.registerToken,
       };
       var options =
           BaseOptions(baseUrl: ApiConstants.BASE_URL, headers: headerMap);
       dio.options = options;
-      var id=SharedPref.prefs?.getString(SharedPref.USER_ID);
+      var id=saveToken.id;
       var response =
           await dio.get(ApiConstants.BASE_URL + ApiConstants.USERPROFILE+id!);
       return GetProfileResponse.fromJson(json.decode(response.toString()));

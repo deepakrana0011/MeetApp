@@ -44,7 +44,9 @@ class _LoginPageState extends State<LoginPage> {
             backgroundColor: ColorConstants.whiteColor,
             key: _scaffoldKey,
             body: BaseView<LoginProvider>(
-                onModelReady: (provider) {},
+                onModelReady: (provider) {
+                  provider.getLinks(context);
+                },
                 builder: (context, provider, _) {
                   return SingleChildScrollView(
                     child: Column(mainAxisSize: MainAxisSize.min, children: [

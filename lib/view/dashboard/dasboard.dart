@@ -8,8 +8,10 @@ import 'package:meetapp/constants/image_constants.dart';
 import 'package:meetapp/constants/route_constants.dart';
 import 'package:meetapp/helper/dialog_helper.dart';
 import 'package:meetapp/helper/shared_pref.dart';
+import 'package:meetapp/locator.dart';
 import 'package:meetapp/provider/dashboard_provider.dart';
 import 'package:meetapp/provider/profile_provider.dart';
+import 'package:meetapp/provider/save_token.dart';
 import 'package:meetapp/view/base_view.dart';
 import 'package:meetapp/extensions/allExtensions.dart';
 import 'package:meetapp/view/contacts/contacts.dart';
@@ -21,6 +23,7 @@ import 'package:meetapp/widgets/image_view.dart';
 import 'package:meetapp/widgets/roundCornerShape.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:uni_links/uni_links.dart';
 
 class DashBoard extends StatefulWidget {
   @override
@@ -28,6 +31,7 @@ class DashBoard extends StatefulWidget {
 }
 
 class _DashBoardState extends State<DashBoard> {
+  SaveToken saveToken= locator<SaveToken>();
   ScreenScaler? scaler;
   int currentPosition = 0;
   List<String> menuitems = [
@@ -67,6 +71,7 @@ class _DashBoardState extends State<DashBoard> {
   void initState() {
     // TODO: implement initState
     super.initState();
+
   }
 
   @override
@@ -217,10 +222,13 @@ class _DashBoardState extends State<DashBoard> {
 
   Future<void> _signOut() async {
     SharedPref.clearSharePref();
+
     Navigator.pushNamedAndRemoveUntil(context, "login", (Route<dynamic> route) => false);
     DialogHelper.showMessage(
         context, 'Signout successfully');
   }
+
+
 }
 
 //
