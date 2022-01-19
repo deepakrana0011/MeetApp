@@ -18,6 +18,10 @@ import 'package:share_plus/share_plus.dart';
 import 'package:uni_links/uni_links.dart';
 
 class ContactDetail extends StatefulWidget {
+  final tapid;
+
+  const ContactDetail({Key? key, this.tapid}) : super(key: key);
+
   @override
   _ContactDetailState createState() => _ContactDetailState();
 }
@@ -51,6 +55,7 @@ class _ContactDetailState extends State<ContactDetail> {
   void initState() {
     // TODO: implement initState
     super.initState();
+
   }
 
   @override
@@ -64,6 +69,8 @@ class _ContactDetailState extends State<ContactDetail> {
           key: _scaffoldKey,
           body: BaseView<ContactDetailProvider>(
             onModelReady: (provider) {
+              provider.saveTapUser(context,widget.tapid);
+              provider.getUserDetail(context,widget.tapid);
 
             },
             builder: (context, provider, _) {

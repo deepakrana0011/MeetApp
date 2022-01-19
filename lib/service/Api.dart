@@ -13,9 +13,12 @@ import 'package:meetapp/model/CreateLinkResponse.dart';
 import 'package:meetapp/model/ForgotPasswordResponse.dart';
 import 'package:meetapp/model/GetLocationResponse.dart';
 import 'package:meetapp/model/GetProfileResponse.dart';
+import 'package:meetapp/model/GetTapUserResponse.dart';
+import 'package:meetapp/model/GetUserDetailResponse.dart';
 import 'package:meetapp/model/Links.dart';
 import 'package:meetapp/model/LoginResponse.dart';
 import 'package:meetapp/model/ResendResponse.dart';
+import 'package:meetapp/model/SaveTapUserResponse.dart';
 import 'package:meetapp/model/SignupResponse.dart';
 import 'package:meetapp/model/UpdateLinkResponse.dart';
 import 'package:meetapp/model/UpdateLocationResponse.dart';
@@ -102,12 +105,12 @@ class Api {
     try {
       var headerMap = {
         "Content-Type": "application/json",
-        "Authorization": saveToken.registerToken,
+        "Authorization": SharedPref.prefs?.getString(SharedPref.TOKEN),
       };
       var options =
           BaseOptions(baseUrl: ApiConstants.BASE_URL, headers: headerMap);
       dio.options = options;
-      var id=saveToken.id;
+      var id=SharedPref.prefs?.getString(SharedPref.USER_ID);
       var response =
           await dio.get(ApiConstants.BASE_URL + ApiConstants.USERPROFILE+id!);
       return GetProfileResponse.fromJson(json.decode(response.toString()));
@@ -334,7 +337,6 @@ class Api {
       }
     }
   }
-
   Future<ResendResponse> resend(
       BuildContext context) async {
     try {
@@ -342,6 +344,85 @@ class Api {
       var response =
       await dio.put(ApiConstants.BASE_URL + ApiConstants.resend, data: map);
       return ResendResponse.fromJson(json.decode(response.toString()));
+    } on DioError catch (e) {
+      if (e.response != null) {
+        var errorData = jsonDecode(e.response.toString());
+        var errorMessage = errorData["error"];
+        throw FetchDataException(errorMessage);
+      } else {
+        throw SocketException("");
+      }
+    }
+  }
+  Future<GetTapUserResponse> getUsers() async {
+    try {
+      var headerMap = {
+        "Content-Type": "application/json",
+        "Authorization": SharedPref.prefs?.getString(SharedPref.TOKEN),
+      };
+      var options =
+      BaseOptions(baseUrl: ApiConstants.BASE_URL, headers: headerMap);
+      dio.options = options;
+
+      var response =
+      await dio.get(ApiConstants.BASE_URL + ApiConstants.getTapUser);
+      return GetTapUserResponse.fromJson(jsonDecode(response.toString()));
+
+    } on DioError catch (e) {
+      if (e.response != null) {
+        var errorData = jsonDecode(e.response.toString());
+        var errorMessage = errorData["error"];
+        throw FetchDataException(errorMessage);
+      } else {
+        throw SocketException("");
+      }
+    }
+  }
+  Future<SaveTapUserResponse> saveTapUser(
+      BuildContext context, String id) async {
+    var map = {
+      "tapUserid": id,
+
+    };
+
+    try {
+      var headerMap = {
+        "Content-Type": "application/json",
+        "Authorization": SharedPref.prefs?.getString(SharedPref.TOKEN),
+      };
+      var options =
+      BaseOptions(baseUrl: ApiConstants.BASE_URL, headers: headerMap);
+      dio.options = options;
+
+      var response = await dio
+          .post(ApiConstants.BASE_URL + ApiConstants.saveTapUser, data: map);
+      return SaveTapUserResponse.fromJson(json.decode(response.toString()));
+    } on DioError catch (e) {
+      if (e.response != null) {
+        var errorData = jsonDecode(e.response.toString());
+        var errorMessage = errorData["error"];
+        throw FetchDataException(errorMessage);
+      } else {
+        throw SocketException("");
+      }
+    }
+  }
+  Future<GetUserDetailResponse> getUserDetail(id) async {
+    try {
+      var map = {"id": id};
+      var headerMap = {
+        "Content-Type": "application/json",
+        "Authorization": SharedPref.prefs?.getString(SharedPref.TOKEN),
+      };
+      var options =
+      BaseOptions(baseUrl: ApiConstants.BASE_URL, headers: headerMap);
+      dio.options = options;
+
+      var response =
+      await dio.get(ApiConstants.BASE_URL + ApiConstants.getUserDetail,queryParameters: map);
+      print(response);
+      return GetUserDetailResponse.fromJson(jsonDecode(response.toString()));
+
     } on DioError catch (e) {
       if (e.response != null) {
         var errorData = jsonDecode(e.response.toString());

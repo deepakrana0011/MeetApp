@@ -14,4 +14,7 @@ class ApiConstants{
   static const FORGOT_PASSWORD='forgotpassword';
   static const verify ='verifytoken';
   static const resend="resendtoken";
+  static const getTapUser="gettapuser";
+  static const saveTapUser="savetapuser";
+  static const getUserDetail="getalluserdetail";
 }

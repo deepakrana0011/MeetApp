@@ -138,8 +138,11 @@ class ProfileProvider extends BaseProvider {
     if(SharedPref.prefs?.getString(SharedPref.TOKEN) != null){
       getLinksStream().listen(( event) {
         final link=  event.split('/');
+        var tapid=link[5];
         WidgetsBinding.instance?.addPostFrameCallback((_) {
-          Navigator.of(context).pushReplacementNamed(RoutesConstants.deeplink,
+          Navigator.of(context).pushReplacementNamed(
+            RoutesConstants.deeplink,
+            arguments: tapid
           );
         });
 

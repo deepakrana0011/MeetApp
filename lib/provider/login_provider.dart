@@ -31,6 +31,8 @@ class LoginProvider extends BaseProvider{
         saveToken.registerToken=model.token;
         saveToken.id=model.data!.id;
         if(model.data!.verifyStatus==1){
+          SharedPref.prefs?.setString(SharedPref.TOKEN, model.token);
+          SharedPref.prefs?.setString(SharedPref.USER_ID,model.data!.id);
           Navigator.pushNamedAndRemoveUntil(context, "dashboard", (Route<dynamic> route) => false);
 
         }
@@ -67,8 +69,7 @@ class LoginProvider extends BaseProvider{
       getLinksStream().listen(( event) {
         final link=  event.split('/');
         WidgetsBinding.instance?.addPostFrameCallback((_) {
-          Navigator.of(context).pushReplacementNamed(RoutesConstants.login,
-          );
+          Navigator.pushNamedAndRemoveUntil(context, "login", (Route<dynamic> route) => false);
         });
 
       });

@@ -63,11 +63,15 @@ class Router {
 
       case RoutesConstants.ContactDetail:
         return MaterialPageRoute(
-            builder: (_) => ContactDetail(), settings: settings);
+            builder: (_) => ContactDetail(
+              tapid: settings.arguments,
+            ), settings: settings);
 
       case RoutesConstants.deeplink:
         return MaterialPageRoute(
-            builder: (_) => ContactDetail(), settings: settings);
+            builder: (_) => ContactDetail(
+              tapid: settings.arguments,
+            ), settings: settings);
 
 
 
