@@ -2,10 +2,14 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_launch/flutter_launch.dart';
 import 'package:flutter_screen_scaler/flutter_screen_scaler.dart';
+import 'package:mailto/mailto.dart';
+import 'package:meetapp/constants/api_constants.dart';
 import 'package:meetapp/constants/color_constants.dart';
 
 import 'package:meetapp/constants/image_constants.dart';
+import 'package:meetapp/enum/viewstate.dart';
 import 'package:meetapp/provider/contact_detail_provider.dart';
 import 'package:meetapp/provider/contacts_provider.dart';
 
@@ -16,6 +20,7 @@ import 'package:meetapp/widgets/image_view.dart';
 import 'package:meetapp/widgets/roundCornerShape.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:uni_links/uni_links.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ContactDetail extends StatefulWidget {
   final tapid;
@@ -38,16 +43,7 @@ class _ContactDetailState extends State<ContactDetail> {
     ImageConstants.ic_snapchat,
     ImageConstants.ic_tiktok,
   ];
-  List<String> writeitems = [
-    'Instagram',
-    'Facebook',
-    'Twitter',
-    'Whatsapp',
-    'Phone',
-    'Email',
-    'Snapchat',
-    'TikTok',
-  ];
+
 
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
@@ -74,7 +70,14 @@ class _ContactDetailState extends State<ContactDetail> {
 
             },
             builder: (context, provider, _) {
-              return SingleChildScrollView(
+              return provider.state == ViewState.Busy
+                  ? Center(
+                child: CircularProgressIndicator(
+                    valueColor: AlwaysStoppedAnimation<Color>(ColorConstants.colorButtonbgColor)
+                ),
+              )
+                  :
+                SingleChildScrollView(
                 child: Column(
                   children: [
                     Container(
@@ -101,7 +104,7 @@ class _ContactDetailState extends State<ContactDetail> {
                                 child: GestureDetector(
                                     onTap: () {
                                       Share.share(
-                                          'hey! check out this new app https://play.google.com/store/search?q=pub%3ADivTag&c=apps');
+                                         ApiConstants.NFC_URL+widget.tapid);
                                     },
                                     child: Icon(
                                       Icons.share,
@@ -128,17 +131,17 @@ class _ContactDetailState extends State<ContactDetail> {
                                         height: scaler!.getWidth(25),
                                         circleCrop: true,
                                         path:
-                                            ImageConstants.ic_contact_profile1,
+                                           ApiConstants.IMAGE_URL+provider.profilepic,
                                         fit: BoxFit.cover,
                                       )),
                                 ],
                               ),
                             ],
                           ),
-                          Text('John Smith').regularText(
+                          Text(provider.username).regularText(
                               ColorConstants.colorTextAppBar,
                               scaler!.getTextSize(12)),
-                          Text('I am a developer').regularText(
+                          Text(provider.description).regularText(
                               ColorConstants.colorTextAppBar,
                               scaler!.getTextSize(11)),
                           Padding(
@@ -160,7 +163,7 @@ class _ContactDetailState extends State<ContactDetail> {
                                         child: ListView.builder(
                                             physics: ClampingScrollPhysics(),
                                             shrinkWrap: true,
-                                            itemCount: writeitems.length,
+                                            itemCount: provider.userlinks.length,
                                             itemBuilder: (BuildContext context,
                                                 int index) {
                                               return Padding(
@@ -172,12 +175,26 @@ class _ContactDetailState extends State<ContactDetail> {
                                                     bgColor: ColorConstants
                                                         .colorbackground,
                                                     child: ListTile(
-                                                      onTap: () {},
+                                                      onTap: () {
+                                                       provider.launchLink(provider.userlinktype[index],provider.links[index]);
+                                                      },
                                                       leading: ImageView(
-                                                        path: writeIcons[index],
+                                                        path: provider.userlinktype[index]=='Instagram'?ImageConstants.ic_instagram:
+                                                        provider.userlinktype[index]=='Facebook'?ImageConstants.ic_facebook:
+                                                        provider.userlinktype[index]=='Twitter'?ImageConstants.ic_twitter:
+                                                        provider.userlinktype[index]=='Whatsapp'?ImageConstants.ic_whatsapp:
+                                                        provider.userlinktype[index]=='Phone'?ImageConstants.ic_phone:
+                                                        provider.userlinktype[index]=='Email'?ImageConstants.ic_email:
+                                                        provider.userlinktype[index]=='Snapchat'?ImageConstants.ic_snapchat:
+                                                        ImageConstants.ic_tiktok
+
+
+
+
+
                                                       ),
                                                       title: Text(
-                                                              writeitems[index])
+                                                              provider.userlinktype[index])
                                                           .menuItemText(
                                                               ColorConstants
                                                                   .colorBlack,

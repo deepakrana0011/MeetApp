@@ -53,6 +53,12 @@ dependencies:
   permission_handler: ^8.3.0
   share_plus: ^3.0.4
   uni_links: ^0.2.0
+  url_launcher: ^6.0.18
+  mailto: ^2.0.0
+  flutter_launch: ^0.3.0
+  external_app_launcher: ^2.0.2
+  twitter_intent: ^1.0.0
+
 
 dev_dependencies:
   flutter_test:

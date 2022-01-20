@@ -16,5 +16,5 @@ class ApiConstants{
   static const resend="resendtoken";
   static const getTapUser="gettapuser";
   static const saveTapUser="savetapuser";
-  static const getUserDetail="getalluserdetail";
+  static const getUserDetail="getalluserdetail/";
 }

@@ -409,7 +409,7 @@ class Api {
   }
   Future<GetUserDetailResponse> getUserDetail(id) async {
     try {
-      var map = {"id": id};
+
       var headerMap = {
         "Content-Type": "application/json",
         "Authorization": SharedPref.prefs?.getString(SharedPref.TOKEN),
@@ -419,7 +419,7 @@ class Api {
       dio.options = options;
 
       var response =
-      await dio.get(ApiConstants.BASE_URL + ApiConstants.getUserDetail,queryParameters: map);
+      await dio.get(ApiConstants.BASE_URL + ApiConstants.getUserDetail+id);
       print(response);
       return GetUserDetailResponse.fromJson(jsonDecode(response.toString()));
 

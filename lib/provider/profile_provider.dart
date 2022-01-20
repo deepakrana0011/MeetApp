@@ -135,10 +135,12 @@ class ProfileProvider extends BaseProvider {
   }
 
   Future<void> getLinks(BuildContext context) async {
-    if(SharedPref.prefs?.getString(SharedPref.TOKEN) != null){
-      getLinksStream().listen(( event) {
-        final link=  event.split('/');
+
+      getUriLinksStream().listen(( event) {
+
+        final link=  event.toString().split('/');
         var tapid=link[5];
+
         WidgetsBinding.instance?.addPostFrameCallback((_) {
           Navigator.of(context).pushReplacementNamed(
             RoutesConstants.deeplink,
@@ -147,7 +149,7 @@ class ProfileProvider extends BaseProvider {
         });
 
       });
-    }
+
 
   }
 

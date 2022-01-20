@@ -15,6 +15,9 @@ import 'constants/route_constants.dart';
 
 class Router {
   static Route<dynamic> generateRoute(RouteSettings settings) {
+
+
+
     switch (settings.name) {
       case RoutesConstants.login:
         return MaterialPageRoute(

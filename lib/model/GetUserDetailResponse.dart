@@ -53,7 +53,7 @@ class Datum {
   DateTime createdAt;
   String profilePic;
   int v;
-  List<dynamic> userdetails;
+  List<Userdetail> userdetails;
 
   factory Datum.fromJson(Map<String, dynamic> json) => Datum(
     id: json["_id"],
@@ -71,7 +71,7 @@ class Datum {
     createdAt: DateTime.parse(json["createdAt"]),
     profilePic: json["profilePic"],
     v: json["__v"],
-    userdetails: List<dynamic>.from(json["userdetails"].map((x) => x)),
+    userdetails: List<Userdetail>.from(json["userdetails"].map((x) => Userdetail.fromJson(x))),
   );
 
   Map<String, dynamic> toJson() => {
@@ -90,6 +90,42 @@ class Datum {
     "createdAt": createdAt.toIso8601String(),
     "profilePic": profilePic,
     "__v": v,
-    "userdetails": List<dynamic>.from(userdetails.map((x) => x)),
+    "userdetails": List<dynamic>.from(userdetails.map((x) => x.toJson())),
+  };
+}
+
+class Userdetail {
+  Userdetail({
+    required this.id,
+    required this.userId,
+    required this.type,
+    required this.link,
+    required this.createdAt,
+    required this.v,
+  });
+
+  String id;
+  String userId;
+  String type;
+  String link;
+  DateTime createdAt;
+  int v;
+
+  factory Userdetail.fromJson(Map<String, dynamic> json) => Userdetail(
+    id: json["_id"],
+    userId: json["userId"],
+    type: json["type"],
+    link: json["link"],
+    createdAt: DateTime.parse(json["createdAt"]),
+    v: json["__v"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "_id": id,
+    "userId": userId,
+    "type": type,
+    "link": link,
+    "createdAt": createdAt.toIso8601String(),
+    "__v": v,
   };
 }
