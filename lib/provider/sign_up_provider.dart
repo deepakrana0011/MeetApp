@@ -103,7 +103,8 @@ class SignUpProvider extends BaseProvider{
           saveToken.registerToken=model.token;
           saveToken.id=model.data!.id;
 
-          Navigator.pushNamedAndRemoveUntil(context, "verification", (Route<dynamic> route) => false);
+          Navigator.of(context)
+              .pushNamed(RoutesConstants.verification);
           DialogHelper.showMessage(context, model.message);
 
           setState(ViewState.Idle);

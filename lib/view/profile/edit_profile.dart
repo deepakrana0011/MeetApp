@@ -242,6 +242,7 @@ class _EditProfileState extends State<EditProfile> {
                               padding: scaler!.getPaddingLTRB(6, 0.8, 6, 0),
                               child: Container(
                                 child: TextFormField(
+
                                   cursorColor:
                                   ColorConstants.colorButtonbgColor,
                                   maxLines: 5,
@@ -251,8 +252,8 @@ class _EditProfileState extends State<EditProfile> {
                                   decoration:
                                   ViewDecoration.inputDecorationWithCurve(
                                       "Description", scaler!),
-                                  textInputAction: TextInputAction.next,
-                                  keyboardType: TextInputType.text,
+                                  textInputAction: TextInputAction.newline,
+                                  keyboardType: TextInputType.multiline,
                                   validator: (value) {
                                     if (value!.trim().isEmpty) {
                                       return 'Empty description';

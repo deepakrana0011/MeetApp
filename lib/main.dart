@@ -1,8 +1,10 @@
-
 import 'dart:ui';
 
 import 'package:easy_localization/easy_localization.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:meetapp/constants/color_constants.dart';
 import 'package:meetapp/constants/route_constants.dart';
@@ -10,13 +12,11 @@ import 'package:meetapp/helper/shared_pref.dart';
 import 'package:meetapp/locator.dart';
 import 'package:meetapp/router.dart' as router;
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:uni_links/uni_links.dart';
 
 Future<void> main() async {
+  BuildContext? context;
   WidgetsFlutterBinding.ensureInitialized();
-
-
-
+  await Firebase.initializeApp();
   SharedPref.prefs = await SharedPreferences.getInstance();
 
   SystemChrome.setSystemUIOverlayStyle(
@@ -24,42 +24,29 @@ Future<void> main() async {
 
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
-  runApp(
-   MyApp()
-
-  );
+  runApp(MyApp());
 
   setupLocator();
 }
-
-
 
 class MyApp extends StatelessWidget {
 
   SharedPreferences? prefs;
 
   @override
-
   Widget build(BuildContext context) {
     return MaterialApp(
         title: "Meet App",
         debugShowCheckedModeBanner: false,
-
-
-      theme: ThemeData(
-        primarySwatch: color,
-        textSelectionTheme: TextSelectionThemeData(
-            cursorColor: ColorConstants.colorButtonbgColor
+        theme: ThemeData(
+          primarySwatch: color,
+          textSelectionTheme: TextSelectionThemeData(
+              cursorColor: ColorConstants.colorButtonbgColor),
         ),
-      ),
-
-      onGenerateRoute: router.Router.generateRoute,
-      initialRoute:
-      SharedPref.prefs?.getString(SharedPref.TOKEN) == null?
-      RoutesConstants.login:
-              RoutesConstants.dashboard
-
-    );
+        onGenerateRoute: router.Router.generateRoute,
+        initialRoute: SharedPref.prefs?.getString(SharedPref.TOKEN) == null
+            ? RoutesConstants.login
+            : RoutesConstants.dashboard);
   }
 
   MaterialColor color = const MaterialColor(0xFF7ac142, <int, Color>{

@@ -46,7 +46,7 @@ class _MapsState extends State<Maps> {
               provider.getLocations(context);
             },
             builder: (context, provider, _) {
-              if(provider.showMap){
+
                 return  GoogleMap(
 
                     mapType: MapType.normal,
@@ -58,14 +58,8 @@ class _MapsState extends State<Maps> {
                       target: LatLng(provider.lat,provider.long),
                       zoom: 20,
                     ));
-              }
-              else {
-               return Center(
-                  child: CircularProgressIndicator(
-                      valueColor: AlwaysStoppedAnimation<Color>(ColorConstants.colorButtonbgColor)
-                  ),
-                );
-              }
+
+
 
             },
           )),

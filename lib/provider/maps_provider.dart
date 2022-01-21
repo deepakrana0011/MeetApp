@@ -38,11 +38,7 @@ class MapsProvider extends BaseProvider {
   }
 
   Future<bool> getLocations(BuildContext context) async {
-    Future.delayed(const Duration(milliseconds: 250), () {
 
-      showMap= true;
-
-    });
     setState(ViewState.Busy);
     BitmapDescriptor.fromAssetImage(ImageConfiguration(size: Size(100, 100)),
         'images/ic_map.png')

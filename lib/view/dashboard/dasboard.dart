@@ -23,7 +23,6 @@ import 'package:meetapp/widgets/image_view.dart';
 import 'package:meetapp/widgets/roundCornerShape.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:uni_links/uni_links.dart';
 
 class DashBoard extends StatefulWidget {
   @override
@@ -72,7 +71,6 @@ class _DashBoardState extends State<DashBoard> {
     // TODO: implement initState
     super.initState();
 
-
   }
 
   @override
@@ -80,51 +78,51 @@ class _DashBoardState extends State<DashBoard> {
     if (scaler == null) {
       scaler = new ScreenScaler()..init(context);
     }
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider(
-          create: (_) => ProfileProvider(
-          ),
-        ),
-      ],
-      child: Scaffold(
-          backgroundColor: ColorConstants.colorbackground,
-          key: _scaffoldKey,
-          appBar: AppBar(
+    return BaseView<ProfileProvider>(
+        onModelReady: (provider) {
+          /*ModalRoute.of(context)?.settings.name == RoutesConstants.dashboard ?*/ provider.getLinks(context) ;
+         // provider.dynamicLinksApi.handleDynamicLink(context);
+        },
+        builder: (context, provider, _) {
+          return Scaffold(
+            backgroundColor: ColorConstants.colorbackground,
+            key: _scaffoldKey,
+            appBar: AppBar(
 
 
-            backgroundColor: ColorConstants.whiteColor,
-            title: Text(menuitems[currentPosition]).appBarText(
+              backgroundColor: ColorConstants.whiteColor,
+              title: Text(menuitems[currentPosition]).appBarText(
                 ColorConstants.colorTextAppBar,
                 scaler!.getTextSize(11),
-                ),
-            leading: IconButton(
-              icon: Icon(
-                Icons.menu,
-                color: ColorConstants.colorTextAppBar,
               ),
-              onPressed: () {
-                _scaffoldKey.currentState!.openDrawer();
-              },
+              leading: IconButton(
+                icon: Icon(
+                  Icons.menu,
+                  color: ColorConstants.colorTextAppBar,
+                ),
+                onPressed: () {
+                  _scaffoldKey.currentState!.openDrawer();
+                },
+              ),
+              actions: [
+                menuitems[currentPosition] == 'Profile' ? Padding(
+                  padding: scaler!.getPaddingLTRB(0, 0, 3, 0),
+                  child: GestureDetector(
+                      onTap: () {
+                        Navigator.of(context)
+                            .pushNamed(RoutesConstants.editProfile);
+                      },
+                      child: Icon(
+                        Icons.edit, color: ColorConstants.colorTextAppBar,)),
+                ) :
+                SizedBox()
+              ],
+              centerTitle: true,
             ),
-            actions: [
-              menuitems[currentPosition]=='Profile'?Padding(
-                padding: scaler!.getPaddingLTRB(0, 0, 3, 0),
-                child: GestureDetector(
-                  onTap: (){
-                    Navigator.of(context)
-                        .pushNamed(RoutesConstants.editProfile);
-                  },
-                    child: Icon(Icons.edit,color: ColorConstants.colorTextAppBar,)),
-              ):
-                  SizedBox()
-            ],
-            centerTitle: true,
-          ),
-          drawer: _buildDrawer(scaler!),
-          body: _children[currentPosition],
-        ),
-    );
+            drawer: _buildDrawer(scaler!),
+            body: _children[currentPosition],
+          );
+        });
   }
   _buildDrawer(ScreenScaler scaler) {
     return Consumer<ProfileProvider>(

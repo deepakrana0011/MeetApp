@@ -7,6 +7,7 @@ import 'package:meetapp/constants/api_constants.dart';
 import 'package:meetapp/constants/color_constants.dart';
 
 import 'package:meetapp/constants/image_constants.dart';
+import 'package:meetapp/dynamic_links_api.dart';
 import 'package:meetapp/enum/viewstate.dart';
 
 import 'package:meetapp/provider/profile_provider.dart';
@@ -25,11 +26,12 @@ class _ProfileState extends State<Profile> {
 
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
-  @override
-  void initState() {
-    // TODO: implement initState
+   @override
+   void initState() {
+     // TODO: implement initState
     super.initState();
-  }
+
+   }
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +45,7 @@ class _ProfileState extends State<Profile> {
 
           body: BaseView<ProfileProvider>(
             onModelReady: (provider) {
-              provider.getLinks(context);
+            //  provider.getLinks(context);
               provider.determinePosition(context);
               provider.getProfile(context);
 

@@ -16,7 +16,6 @@ import 'package:meetapp/provider/base_provider.dart';
 import 'package:meetapp/service/FetchDataExpection.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:twitter_intent/twitter_intent.dart';
-import 'package:uni_links/uni_links.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 

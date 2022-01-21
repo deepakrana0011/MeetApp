@@ -1,0 +1,4 @@
+class ShareLink{
+  Uri? link;
+
+}

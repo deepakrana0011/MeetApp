@@ -52,12 +52,16 @@ dependencies:
   nfc_manager: ^3.1.0
   permission_handler: ^8.3.0
   share_plus: ^3.0.4
-  uni_links: ^0.2.0
+  ##uni_links: ^0.2.0
   url_launcher: ^6.0.18
   mailto: ^2.0.0
   flutter_launch: ^0.3.0
   external_app_launcher: ^2.0.2
   twitter_intent: ^1.0.0
+  firebase_dynamic_links: ^4.0.4
+  firebase_core :
+  firebase_analytics: ^9.0.5
+  uni_links2: ^0.6.0+2
 
 
 dev_dependencies:
@@ -73,7 +77,7 @@ flutter_native_splash:
   web: true
 
 flutter_icons:
-  image_path: "images/applogo.jpg"
+  image_path: "images/app_logo.jpg"
   android: true
   ios: true
 

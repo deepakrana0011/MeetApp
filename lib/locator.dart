@@ -1,6 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
+import 'package:meetapp/dynamic_links_api.dart';
 import 'package:meetapp/provider/EditProfileProvider.dart';
+import 'package:meetapp/provider/ShareLink.dart';
 import 'package:meetapp/provider/contact_detail_provider.dart';
 import 'package:meetapp/provider/contacts_provider.dart';
 import 'package:meetapp/provider/dashboard_provider.dart';
@@ -20,7 +22,10 @@ GetIt locator = GetIt.instance;
 
 void setupLocator() {
   locator.registerLazySingleton(() => Api());
+  locator.registerLazySingleton(() => DynamicLinksApi());
   locator.registerLazySingleton<SaveToken>(() => SaveToken());
+  locator.registerLazySingleton<ShareLink>(() => ShareLink());
+
 
   locator.registerFactory(() => LoginProvider());
   locator.registerFactory(() => SignUpProvider());

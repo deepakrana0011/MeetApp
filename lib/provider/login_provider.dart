@@ -1,8 +1,12 @@
+import 'dart:async';
 import 'dart:io';
 
+import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:meetapp/constants/route_constants.dart';
+import 'package:meetapp/dynamic_links_api.dart';
 import 'package:meetapp/enum/viewstate.dart';
 import 'package:meetapp/helper/dialog_helper.dart';
 import 'package:meetapp/helper/shared_pref.dart';
@@ -10,7 +14,6 @@ import 'package:meetapp/provider/base_provider.dart';
 import 'package:meetapp/provider/save_token.dart';
 import 'package:meetapp/service/FetchDataExpection.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:uni_links/uni_links.dart';
 
 import '../locator.dart';
 
@@ -33,12 +36,14 @@ class LoginProvider extends BaseProvider{
         if(model.data!.verifyStatus==1){
           SharedPref.prefs?.setString(SharedPref.TOKEN, model.token);
           SharedPref.prefs?.setString(SharedPref.USER_ID,model.data!.id);
-          Navigator.pushNamedAndRemoveUntil(context, "dashboard", (Route<dynamic> route) => false);
+          saveToken.checkLogin = false;
+          Navigator.pushNamedAndRemoveUntil(context, RoutesConstants.dashboard, (Route<dynamic> route) => false);
 
         }
         else{
 
-          Navigator.pushNamedAndRemoveUntil(context, "verification", (Route<dynamic> route) => false);
+          Navigator.of(context)
+              .pushNamed(RoutesConstants.verification);
         }
 
 
@@ -64,17 +69,7 @@ class LoginProvider extends BaseProvider{
 
   }
 
-  Future<void> getLinks(BuildContext context) async {
-    if(SharedPref.prefs?.getString(SharedPref.TOKEN) == null){
-      getLinksStream().listen(( event) {
-        final link=  event.split('/');
-        WidgetsBinding.instance?.addPostFrameCallback((_) {
-          Navigator.pushNamedAndRemoveUntil(context, "login", (Route<dynamic> route) => false);
-        });
 
-      });
-    }
 
-  }
 
 }

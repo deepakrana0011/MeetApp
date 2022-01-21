@@ -1,9 +1,11 @@
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:meetapp/constants/api_constants.dart';
+import 'package:meetapp/dynamic_links_api.dart';
 import 'package:meetapp/enum/viewstate.dart';
 import 'package:meetapp/helper/dialog_helper.dart';
 import 'package:meetapp/helper/shared_pref.dart';
@@ -15,6 +17,7 @@ import 'package:nfc_manager/nfc_manager.dart';
 
 class WriteProvider extends BaseProvider {
   List<Datum> links = [];
+
 
 
 
@@ -161,6 +164,8 @@ class WriteProvider extends BaseProvider {
           NdefRecord.createUri(Uri.parse(ApiConstants.NFC_URL+id!)),
         ]);
         await tech.write(message);
+     //  createDynamicLink(id);
+
 
       }on PlatformException catch (e) {
         throw(e.message ?? 'Some error has occurred.');
@@ -192,6 +197,12 @@ class WriteProvider extends BaseProvider {
     }
     return '[Ndef - Tag] is clear.';
   }
+
+
+
+
+
+
 
 }
 

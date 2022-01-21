@@ -45,7 +45,7 @@ class _LoginPageState extends State<LoginPage> {
             key: _scaffoldKey,
             body: BaseView<LoginProvider>(
                 onModelReady: (provider) {
-                  provider.getLinks(context);
+
                 },
                 builder: (context, provider, _) {
                   return SingleChildScrollView(

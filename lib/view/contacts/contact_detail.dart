@@ -10,6 +10,8 @@ import 'package:meetapp/constants/color_constants.dart';
 
 import 'package:meetapp/constants/image_constants.dart';
 import 'package:meetapp/enum/viewstate.dart';
+import 'package:meetapp/locator.dart';
+import 'package:meetapp/provider/ShareLink.dart';
 import 'package:meetapp/provider/contact_detail_provider.dart';
 import 'package:meetapp/provider/contacts_provider.dart';
 
@@ -19,8 +21,9 @@ import 'package:meetapp/widgets/imagePickerDialog.dart';
 import 'package:meetapp/widgets/image_view.dart';
 import 'package:meetapp/widgets/roundCornerShape.dart';
 import 'package:share_plus/share_plus.dart';
-import 'package:uni_links/uni_links.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+import '../../dynamic_links_api.dart';
 
 class ContactDetail extends StatefulWidget {
   final tapid;
@@ -46,6 +49,7 @@ class _ContactDetailState extends State<ContactDetail> {
 
 
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+  ShareLink shareLink= locator<ShareLink>();
 
   @override
   void initState() {
@@ -102,9 +106,13 @@ class _ContactDetailState extends State<ContactDetail> {
                               Padding(
                                 padding: scaler!.getPaddingLTRB(0, 1, 3, 0),
                                 child: GestureDetector(
-                                    onTap: () {
+                                    onTap: () async {
+
+
+
                                       Share.share(
-                                         ApiConstants.NFC_URL+widget.tapid);
+                                       ApiConstants.NFC_URL+widget.tapid
+                                          );
                                     },
                                     child: Icon(
                                       Icons.share,
@@ -224,6 +232,7 @@ class _ContactDetailState extends State<ContactDetail> {
       ),
     );
   }
+
 
 
 }

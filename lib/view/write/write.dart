@@ -67,6 +67,7 @@ class _WriteState extends State<Write> {
           key: _scaffoldKey,
           body: BaseView<WriteProvider>(
             onModelReady: (provider) {
+
               provider.getLinks(context);
             },
             builder: (context, provider, _) {
