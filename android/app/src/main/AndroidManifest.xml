@@ -7,6 +7,7 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.NFC" />
 
+
     <uses-feature
         android:name="android.hardware.nfc"
         android:required="true" />
@@ -29,6 +30,7 @@
 
     <application
         android:label="meetapp"
+        android:name=".MainApplication"
         android:allowBackup="false"
         android:icon="@mipmap/ic_launcher">
        <meta-data android:name="com.google.android.geo.API_KEY"
@@ -75,8 +77,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data android:scheme="http"
-                    android:host="18.130.225.164" />
-               />
+                    android:host="18.130.225.164"/>
             </intent-filter>
 
         </activity>

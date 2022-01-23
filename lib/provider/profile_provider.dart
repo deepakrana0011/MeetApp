@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:intl/intl.dart';
 import 'package:meetapp/constants/route_constants.dart';
 import 'package:meetapp/constants/route_constants.dart';
@@ -20,9 +21,10 @@ import 'package:meetapp/provider/save_token.dart';
 import 'package:meetapp/service/FetchDataExpection.dart';
 import 'package:meetapp/view/contacts/contacts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:get/get.dart';
+
 //import 'package:uni_links/uni_links.dart';
 import 'package:uni_links2/uni_links.dart';
-
 
 class ProfileProvider extends BaseProvider {
   late GetProfileResponse profile;
@@ -35,7 +37,6 @@ class ProfileProvider extends BaseProvider {
   GlobalKey<NavigatorState> navigatorKey = GlobalKey();
   SaveToken saveToken = locator<SaveToken>();
   late StreamSubscription _sub;
-
 
   // ProfileProvider()
   // {
@@ -50,10 +51,10 @@ class ProfileProvider extends BaseProvider {
       SharedPref.prefs?.setString(SharedPref.FIRST_NAME, model.data.firstName);
 
       SharedPref.prefs?.setString(SharedPref.LAST_NAME, model.data.lastName);
-      SharedPref.prefs?.setString(
-          SharedPref.profile_pic, model.data.profilePic);
-      SharedPref.prefs?.setString(
-          SharedPref.DESCRIPTION, model.data.description);
+      SharedPref.prefs
+          ?.setString(SharedPref.profile_pic, model.data.profilePic);
+      SharedPref.prefs
+          ?.setString(SharedPref.DESCRIPTION, model.data.description);
       SharedPref.prefs?.setString(SharedPref.AGE, model.data.dob);
       SharedPref.prefs?.setString(SharedPref.Email, model.data.email);
       getDateTime(context);
@@ -150,40 +151,31 @@ class ProfileProvider extends BaseProvider {
   }
 
   Future<void> getLinks(BuildContext context) async {
+    _sub = uriLinkStream.listen((event) {
+      final link = event.toString().split('/');
+      var tapid = link[5];
 
-    _sub = linkStream.listen(( event) {
-
-        final link=  event.toString().split('/');
-        var tapid=link[5];
-
-        WidgetsBinding.instance?.addPostFrameCallback((_) {
-
-          Navigator.of(context).pushNamed(
-            RoutesConstants.deeplink,
-            arguments: tapid
-          );
-        });
-
+      WidgetsBinding.instance?.addPostFrameCallback((_) {
+        Navigator.of(context)
+            .pushNamed(RoutesConstants.deeplink, arguments: tapid);
       });
-
+    });
 
     try {
-      final initialLink = await getInitialLink();
-        final link=  initialLink.toString().split('/');
-        var tapid=link[5];
+      final initialLink = await getInitialUri();
+      final link = initialLink.toString().split('/');
+      var tapid = link[5];
 
-        WidgetsBinding.instance?.addPostFrameCallback((_) {
-
-          Navigator.of(context).pushNamed(
-            RoutesConstants.deeplink,
-            arguments: tapid
-          );
-        });
+      WidgetsBinding.instance?.addPostFrameCallback((_) {
+        Navigator.of(context)
+            .pushNamed(RoutesConstants.deeplink, arguments: tapid);
+      });
     } on PlatformException {
       // Handle exception by warning the user their action did not succeed
       // return?
     }
   }
+
   Future handleDynamicLinks(BuildContext context) async {
     // Firstly, when app start with deep link
     /*final PendingDynamicLinkData data = await FirebaseDynamicLinks.instance.getInitialLink();
@@ -191,14 +183,12 @@ class ProfileProvider extends BaseProvider {
     // Secondly, when app was on background and back to foreground by being triggered with deep link,
     // Those callback function will be triggered.
     FirebaseDynamicLinks.instance.onLink.listen((dynamicLinkData) {
-      final link=dynamicLinkData.link.toString().split('/');
-      var tapid=link[5];
+      final link = dynamicLinkData.link.toString().split('/');
+      var tapid = link[5];
       print(tapid);
 
-      Navigator.of(context).pushNamed(
-          RoutesConstants.deeplink,
-          arguments: tapid
-      );
+      Navigator.of(context)
+          .pushNamed(RoutesConstants.deeplink, arguments: tapid);
     }).onError((error) {
       // Handle errors
     });
@@ -206,32 +196,16 @@ class ProfileProvider extends BaseProvider {
 
   Future<void> _handleDeepLink(PendingDynamicLinkData data) async {
     final Uri? deepLink = data.link;
-    if (data == null) return; // If there is no deep link provided, the data is null.
+    if (data == null)
+      return; // If there is no deep link provided, the data is null.
     var isInStore = deepLink!.pathSegments.contains('some-path');
-    if (isInStore) await _doSomething(deepLink.queryParameters['key'].toString());
+    if (isInStore)
+      await _doSomething(deepLink.queryParameters['key'].toString());
   }
+
   Future<void> _doSomething(String queryValue) {
     //Do something when deep link triggered
     print(queryValue);
     throw '';
   }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }

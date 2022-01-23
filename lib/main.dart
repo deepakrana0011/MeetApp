@@ -1,10 +1,8 @@
+import 'dart:async';
 import 'dart:ui';
 
-import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:meetapp/constants/color_constants.dart';
 import 'package:meetapp/constants/route_constants.dart';
@@ -12,10 +10,14 @@ import 'package:meetapp/helper/shared_pref.dart';
 import 'package:meetapp/locator.dart';
 import 'package:meetapp/router.dart' as router;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:get/get.dart';
+import 'helper/method_channel_helper.dart';
 
 Future<void> main() async {
-  BuildContext? context;
   WidgetsFlutterBinding.ensureInitialized();
+
+  await MethodChannelCall.initMethodChannel();
+
   await Firebase.initializeApp();
   SharedPref.prefs = await SharedPreferences.getInstance();
 
@@ -29,25 +31,18 @@ Future<void> main() async {
   setupLocator();
 }
 
-class MyApp extends StatelessWidget {
-
-  SharedPreferences? prefs;
+class MyApp extends StatefulWidget {
+  MakeRoutes() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.getString('token');
+  }
 
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-        title: "Meet App",
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          primarySwatch: color,
-          textSelectionTheme: TextSelectionThemeData(
-              cursorColor: ColorConstants.colorButtonbgColor),
-        ),
-        onGenerateRoute: router.Router.generateRoute,
-        initialRoute: SharedPref.prefs?.getString(SharedPref.TOKEN) == null
-            ? RoutesConstants.login
-            : RoutesConstants.dashboard);
-  }
+  MyAppState createState() => MyAppState();
+}
+
+class MyAppState extends State<MyApp> {
+  SharedPreferences? prefs;
 
   MaterialColor color = const MaterialColor(0xFF7ac142, <int, Color>{
     50: Color(0xFF1C67D3),
@@ -62,8 +57,24 @@ class MyApp extends StatelessWidget {
     900: Color(0xFF1C67D3),
   });
 
-  MakeRoutes() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.getString('token');
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return GetMaterialApp(
+        title: "Meet App",
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          primarySwatch: color,
+          textSelectionTheme: TextSelectionThemeData(
+              cursorColor: ColorConstants.colorButtonbgColor),
+        ),
+        onGenerateRoute: router.Router.generateRoute,
+        initialRoute: SharedPref.prefs?.getString(SharedPref.TOKEN) == null
+            ? RoutesConstants.login
+            : RoutesConstants.dashboard);
   }
 }

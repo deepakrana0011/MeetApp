@@ -5,7 +5,7 @@ class SaveTapUserResponse {
     required this.data,
   });
 
-  bool success;
+  var success;
   String message;
   Data? data;
 

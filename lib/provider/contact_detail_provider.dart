@@ -36,14 +36,16 @@ class ContactDetailProvider extends BaseProvider {
   Future<bool> saveTapUser(BuildContext context,id) async {
     try {
       var model = await api.saveTapUser(context, id);
-      if (model.success) {
+
+      /*if (model.success) {
 
         return true;
       } else {
         DialogHelper.showMessage(context, model.message);
         setState(ViewState.Idle);
         return false;
-      }
+      }*/
+      return true;
     } on FetchDataException catch (c) {
       setState(ViewState.Idle);
       DialogHelper.showMessage(context, c.toString());
