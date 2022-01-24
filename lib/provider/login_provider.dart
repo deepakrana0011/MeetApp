@@ -37,7 +37,7 @@ class LoginProvider extends BaseProvider{
           SharedPref.prefs?.setString(SharedPref.TOKEN, model.token);
           SharedPref.prefs?.setString(SharedPref.USER_ID,model.data!.id);
           saveToken.checkLogin = false;
-          Navigator.pushNamedAndRemoveUntil(context, RoutesConstants.dashboard, (Route<dynamic> route) => false);
+          Navigator.pushNamedAndRemoveUntil(context, RoutesConstants.dashboard, (Route<dynamic> route) => false,arguments: true);
 
         }
         else{

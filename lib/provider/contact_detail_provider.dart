@@ -3,10 +3,7 @@ import 'dart:core';
 import 'dart:core';
 import 'dart:io';
 
-import 'package:external_app_launcher/external_app_launcher.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_launch/flutter_launch.dart';
 import 'package:mailto/mailto.dart';
@@ -14,8 +11,6 @@ import 'package:meetapp/enum/viewstate.dart';
 import 'package:meetapp/helper/dialog_helper.dart';
 import 'package:meetapp/provider/base_provider.dart';
 import 'package:meetapp/service/FetchDataExpection.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:twitter_intent/twitter_intent.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 
@@ -37,14 +32,7 @@ class ContactDetailProvider extends BaseProvider {
     try {
       var model = await api.saveTapUser(context, id);
 
-      /*if (model.success) {
 
-        return true;
-      } else {
-        DialogHelper.showMessage(context, model.message);
-        setState(ViewState.Idle);
-        return false;
-      }*/
       return true;
     } on FetchDataException catch (c) {
       setState(ViewState.Idle);

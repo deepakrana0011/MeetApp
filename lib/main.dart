@@ -19,7 +19,7 @@ Future<void> main() async {
 
   await MethodChannelCall.initMethodChannel();
 
-  await Firebase.initializeApp();
+ // await Firebase.initializeApp();
   SharedPref.prefs = await SharedPreferences.getInstance();
 
   SystemChrome.setSystemUIOverlayStyle(

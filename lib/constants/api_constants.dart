@@ -17,4 +17,5 @@ class ApiConstants{
   static const getTapUser="gettapuser";
   static const saveTapUser="savetapuser";
   static const getUserDetail="getalluserdetail/";
+  static const Website_Url="http://www.meetthering.com/";
 }

@@ -31,7 +31,9 @@ class Router {
 
       case RoutesConstants.dashboard:
         return MaterialPageRoute(
-            builder: (_) => DashBoard(), settings: settings);
+            builder: (_) => DashBoard(
+              logincheck: settings.arguments as bool,
+            ), settings: settings);
 
 
       case RoutesConstants.profile:

@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screen_scaler/flutter_screen_scaler.dart';
+import 'package:meetapp/constants/api_constants.dart';
 import 'package:meetapp/constants/color_constants.dart';
 import 'package:meetapp/constants/image_constants.dart';
 import 'package:meetapp/constants/route_constants.dart';
@@ -23,8 +24,12 @@ import 'package:meetapp/widgets/image_view.dart';
 import 'package:meetapp/widgets/roundCornerShape.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class DashBoard extends StatefulWidget {
+  final bool logincheck;
+
+  const DashBoard({Key? key, required this.logincheck}) : super(key: key);
   @override
   _DashBoardState createState() => _DashBoardState();
 }
@@ -71,6 +76,7 @@ class _DashBoardState extends State<DashBoard> {
     // TODO: implement initState
     super.initState();
 
+
   }
 
   @override
@@ -80,8 +86,15 @@ class _DashBoardState extends State<DashBoard> {
     }
     return BaseView<ProfileProvider>(
         onModelReady: (provider) {
-          /*ModalRoute.of(context)?.settings.name == RoutesConstants.dashboard ?*/ provider.getLinks(context) ;
-         // provider.dynamicLinksApi.handleDynamicLink(context);
+          print('abc');
+
+          if(widget.logincheck==null){
+            provider.getLinks(context);
+          }
+          //provider.dynamicLinksApi.handleDynamicLink(context);
+
+         // ModalRoute.of(context)?.settings.name == RoutesConstants.dashboard ? provider.getLinks(context):Container() ;
+
         },
         builder: (context, provider, _) {
           return Scaffold(
@@ -164,7 +177,7 @@ class _DashBoardState extends State<DashBoard> {
                                 });
                           }
                           else if(position ==5){
-                            Navigator.pop(context);
+                            _launchURL();
                           }
                           else {
                             Navigator.pop(context);
@@ -225,6 +238,15 @@ class _DashBoardState extends State<DashBoard> {
     Navigator.pushNamedAndRemoveUntil(context, "login", (Route<dynamic> route) => false);
     DialogHelper.showMessage(
         context, 'Signout successfully');
+  }
+
+  _launchURL() async {
+    const url = ApiConstants.Website_Url;
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
   }
 
 

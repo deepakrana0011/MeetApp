@@ -10,7 +10,6 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:intl/intl.dart';
 import 'package:meetapp/constants/route_constants.dart';
 import 'package:meetapp/constants/route_constants.dart';
-import 'package:meetapp/dynamic_links_api.dart';
 import 'package:meetapp/enum/viewstate.dart';
 import 'package:meetapp/helper/dialog_helper.dart';
 import 'package:meetapp/helper/shared_pref.dart';
@@ -37,6 +36,7 @@ class ProfileProvider extends BaseProvider {
   GlobalKey<NavigatorState> navigatorKey = GlobalKey();
   SaveToken saveToken = locator<SaveToken>();
   late StreamSubscription _sub;
+ // DynamicLinksApi dynamicLinksApi = locator<DynamicLinksApi>();
 
   // ProfileProvider()
   // {
@@ -152,6 +152,7 @@ class ProfileProvider extends BaseProvider {
 
   Future<void> getLinks(BuildContext context) async {
     _sub = uriLinkStream.listen((event) {
+
       final link = event.toString().split('/');
       var tapid = link[5];
 
@@ -164,6 +165,7 @@ class ProfileProvider extends BaseProvider {
     try {
       final initialLink = await getInitialUri();
       final link = initialLink.toString().split('/');
+
       var tapid = link[5];
 
       WidgetsBinding.instance?.addPostFrameCallback((_) {

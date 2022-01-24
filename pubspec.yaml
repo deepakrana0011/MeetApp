@@ -56,8 +56,6 @@ dependencies:
   url_launcher: ^6.0.18
   mailto: ^2.0.0
   flutter_launch: ^0.3.0
-  external_app_launcher: ^2.0.2
-  twitter_intent: ^1.0.0
   firebase_dynamic_links: ^4.0.4
   firebase_core :
   firebase_analytics: ^9.0.5

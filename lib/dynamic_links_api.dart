@@ -68,7 +68,7 @@ class DynamicLinksApi {
       uriPrefix: 'https://meettheringapp.page.link/',
       link: Uri.parse(ApiConstants.NFC_URL + id),
       androidParameters: AndroidParameters(
-        packageName: 'com.example.meetapp',
+        packageName: 'com.meetmeyou.meetmeyou',
         minimumVersion: 1,
       ),
       /*iosParameters: IosParameters(
