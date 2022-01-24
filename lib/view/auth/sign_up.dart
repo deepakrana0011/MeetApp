@@ -245,8 +245,8 @@ class _SignUpState extends State<SignUp> {
                                   decoration:
                                       ViewDecoration.inputDecorationWithCurve(
                                           "Description", scaler!),
-                                  textInputAction: TextInputAction.next,
-                                  keyboardType: TextInputType.text,
+                                  textInputAction: TextInputAction.newline,
+                                  keyboardType: TextInputType.multiline,
                                   validator: (value) {
                                     if (value!.trim().isEmpty) {
                                       return 'Empty description';

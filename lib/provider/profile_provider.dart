@@ -170,7 +170,7 @@ class ProfileProvider extends BaseProvider {
         Navigator.of(context)
             .pushNamed(RoutesConstants.deeplink, arguments: tapid);
       });
-    } on PlatformException {
+    } on Exception {
       // Handle exception by warning the user their action did not succeed
       // return?
     }

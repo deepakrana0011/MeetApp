@@ -21,8 +21,8 @@ class Maps extends StatefulWidget {
 class _MapsState extends State<Maps> {
   ScreenScaler? scaler;
 
-
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+
   @override
   void initState() {
     // TODO: implement initState
@@ -36,37 +36,32 @@ class _MapsState extends State<Maps> {
     }
     return SafeArea(
       child: Scaffold(
-        resizeToAvoidBottomInset: false,
+          resizeToAvoidBottomInset: false,
           backgroundColor: ColorConstants.colorbackground,
           key: _scaffoldKey,
-
           body: BaseView<MapsProvider>(
-            onModelReady: (provider) {
-              provider.getLngLt(context);
+            onModelReady: (provider) async {
+              await provider.getLngLt(context);
               provider.getLocations(context);
             },
             builder: (context, provider, _) {
-
-                return  GoogleMap(
-
-                    mapType: MapType.normal,
-                    mapToolbarEnabled: false,
-
-                    markers: Set<Marker>.of(provider.markers),
-
-                    initialCameraPosition: CameraPosition(
-                      target: LatLng(provider.lat,provider.long),
-                      zoom: 20,
-                    ));
-
-
-
+              return provider.state == ViewState.Idle
+                  ? GoogleMap(
+                      mapType: MapType.normal,
+                      mapToolbarEnabled: false,
+                      markers: Set<Marker>.of(provider.markers),
+                      initialCameraPosition: CameraPosition(
+                        target: LatLng(provider.lat, provider.long),
+                        zoom: 20,
+                      ))
+                  : Center(
+                      child: CircularProgressIndicator(
+                          valueColor: AlwaysStoppedAnimation<Color>(
+                              ColorConstants.colorButtonbgColor)));
             },
           )),
     );
   }
-
-
 }
 
 //

@@ -21,47 +21,40 @@ class MapsProvider extends BaseProvider {
   double lat = 0.11;
   double long = 0.23;
   BitmapDescriptor? myIcon;
-  bool showMap=false;
+  bool showMap = false;
 
-  void getLngLt(context) {
-
-
+  Future getLngLt(context) async {
     setState(ViewState.Busy);
-
-    Geolocator.getCurrentPosition().then((value) {
-
-      lat = value.latitude;
-      long = value.longitude;
-
-      setState(ViewState.Idle);
-    });
+    var value = await Geolocator.getCurrentPosition();
+    lat = value.latitude;
+    long = value.longitude;
   }
 
   Future<bool> getLocations(BuildContext context) async {
-
-    setState(ViewState.Busy);
-    BitmapDescriptor.fromAssetImage(ImageConfiguration(size: Size(100, 100)),
-        'images/ic_map.png')
+    BitmapDescriptor.fromAssetImage(
+            ImageConfiguration(size: Size(100, 100)), 'images/ic_map.png')
         .then((d) {
       myIcon = d;
     });
-
-
     try {
       var model = await api.getLocationResponse();
-      setState(ViewState.Idle);
-
       locations = model.data;
-      for(var i=0;i<locations.length;i++){
-        if(locations[i].latitude!=null && locations[i].longitude!=null){
-          markers.add(Marker(markerId: MarkerId(i.toString()),position: LatLng(locations[i].latitude,locations[i].longitude),
-            visible: true,
-            icon: locations[i].id!= SharedPref.prefs?.getString(SharedPref.USER_ID)? myIcon as BitmapDescriptor:
-            BitmapDescriptor.defaultMarker,
-          ),
+      for (var i = 0; i < locations.length; i++) {
+        if (locations[i].latitude != null && locations[i].longitude != null) {
+          markers.add(
+            Marker(
+              markerId: MarkerId(i.toString()),
+              position: LatLng(locations[i].latitude, locations[i].longitude),
+              visible: true,
+              icon: locations[i].id !=
+                      SharedPref.prefs?.getString(SharedPref.USER_ID)
+                  ? myIcon as BitmapDescriptor
+                  : BitmapDescriptor.defaultMarker,
+            ),
           );
         }
       }
+      setState(ViewState.Idle);
       return true;
     } on FetchDataException catch (c) {
       setState(ViewState.Idle);
@@ -71,23 +64,20 @@ class MapsProvider extends BaseProvider {
       setState(ViewState.Idle);
       DialogHelper.showMessage(context, 'Internet connection');
       return false;
-    } on Exception catch(c){
+    } on Exception catch (c) {
       DialogHelper.showMessage(context, c.toString());
       return false;
     }
   }
 
-
-
-
   void onMapCreated(GoogleMapController controller) {
-
-    markers.add(Marker(markerId: MarkerId("id-1"),position: LatLng(30.7089889,76.6837099),
-
-      visible: true,
-      icon: BitmapDescriptor.defaultMarker,
-    ),
-
+    markers.add(
+      Marker(
+        markerId: MarkerId("id-1"),
+        position: LatLng(30.7089889, 76.6837099),
+        visible: true,
+        icon: BitmapDescriptor.defaultMarker,
+      ),
     );
   }
 }

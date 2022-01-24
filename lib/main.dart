@@ -1,3 +1,4 @@
+//@dart=2.11
 import 'dart:async';
 import 'dart:ui';
 
@@ -42,7 +43,7 @@ class MyApp extends StatefulWidget {
 }
 
 class MyAppState extends State<MyApp> {
-  SharedPreferences? prefs;
+  SharedPreferences prefs;
 
   MaterialColor color = const MaterialColor(0xFF7ac142, <int, Color>{
     50: Color(0xFF1C67D3),
