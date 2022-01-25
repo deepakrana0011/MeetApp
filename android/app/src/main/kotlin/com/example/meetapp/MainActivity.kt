@@ -17,43 +17,67 @@ class MainActivity : FlutterActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (intent != null && intent.dataString != null && intent.dataString!!.startsWith("http://18.130.225.164/#/meet/")) {
-            val channel = MethodChannel(getBinaryMessenger(), "method_channal")
-            val data = intent.data
-            val url = data.toString()
-            Handler(Looper.getMainLooper()).postDelayed(
-                    {
-                        channel.invokeMethod("onTap", url)
-                    },
-                    500
-            )
+        try {
+            if (intent != null && intent.dataString != null && intent.dataString!!.startsWith("http://18.130.225.164/#/meet/")) {
+                val channel = MethodChannel(getBinaryMessenger(), "method_channal")
+                val data = intent.data
+                val url = data.toString()
+                Handler(Looper.getMainLooper()).postDelayed(
+                        {
+                            channel.invokeMethod("onTap", url)
+                        },
+                        500
+                )
+
+            }
+        }
+        catch (e: Exception) {
 
         }
+
     }
 
 
     override fun onResume() {
         super.onResume()
-        val intent = Intent(context, javaClass).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
-        val pendingIntent = PendingIntent.getActivity(context, 0, intent, 0)
-        NfcAdapter.getDefaultAdapter(context)?.enableForegroundDispatch(this, pendingIntent, null, null)
+        try {
+            val intent = Intent(context, javaClass).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
+            val pendingIntent = PendingIntent.getActivity(context, 0, intent, 0)
+            NfcAdapter.getDefaultAdapter(context)?.enableForegroundDispatch(this, pendingIntent, null, null)
+        }
+        catch (e: Exception) {
+
+        }
+
     }
 
     override fun onPause() {
         super.onPause()
-        NfcAdapter.getDefaultAdapter(context)?.disableForegroundDispatch(this)
+        try {
+            NfcAdapter.getDefaultAdapter(context)?.disableForegroundDispatch(this)
+        }
+        catch (e: Exception) {
+
+        }
+
     }
 
 
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
-        if (NfcAdapter.ACTION_NDEF_DISCOVERED == intent.action && intent.dataString != null && intent.dataString!!.startsWith("http://18.130.225.164/#/meet/")) {
-            val channel = MethodChannel(getBinaryMessenger(), "method_channal")
-            val data = intent.data
-            val url = data.toString()
-            channel.invokeMethod("onTap", url)
+        try {
+            if (NfcAdapter.ACTION_NDEF_DISCOVERED == intent.action && intent.dataString != null && intent.dataString!!.startsWith("http://18.130.225.164/#/meet/")) {
+                val channel = MethodChannel(getBinaryMessenger(), "method_channal")
+                val data = intent.data
+                val url = data.toString()
+                channel.invokeMethod("onTap", url)
+
+            }
+        }
+        catch (e: Exception) {
 
         }
+
     }
 
     private fun getBinaryMessenger(): BinaryMessenger {

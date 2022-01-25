@@ -1,10 +1,8 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:intl/intl.dart';
@@ -18,9 +16,7 @@ import 'package:meetapp/model/GetProfileResponse.dart';
 import 'package:meetapp/provider/base_provider.dart';
 import 'package:meetapp/provider/save_token.dart';
 import 'package:meetapp/service/FetchDataExpection.dart';
-import 'package:meetapp/view/contacts/contacts.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:get/get.dart';
+
 
 //import 'package:uni_links/uni_links.dart';
 import 'package:uni_links2/uni_links.dart';
@@ -152,14 +148,20 @@ class ProfileProvider extends BaseProvider {
 
   Future<void> getLinks(BuildContext context) async {
     _sub = uriLinkStream.listen((event) {
+   try{
+  final List link = event.toString().split('/');
+  var tapid = link[5];
 
-      final link = event.toString().split('/');
-      var tapid = link[5];
+  WidgetsBinding.instance?.addPostFrameCallback((_) {
+    Navigator.of(context)
+        .pushNamed(RoutesConstants.deeplink, arguments: tapid);
+  });
+    }
+    on FetchDataException catch (c){
+      DialogHelper.showMessage(context, c.toString());
 
-      WidgetsBinding.instance?.addPostFrameCallback((_) {
-        Navigator.of(context)
-            .pushNamed(RoutesConstants.deeplink, arguments: tapid);
-      });
+    }
+
     });
 
     try {
@@ -178,36 +180,5 @@ class ProfileProvider extends BaseProvider {
     }
   }
 
-  Future handleDynamicLinks(BuildContext context) async {
-    // Firstly, when app start with deep link
-    /*final PendingDynamicLinkData data = await FirebaseDynamicLinks.instance.getInitialLink();
-    await _handleDeepLink(data);*/
-    // Secondly, when app was on background and back to foreground by being triggered with deep link,
-    // Those callback function will be triggered.
-    FirebaseDynamicLinks.instance.onLink.listen((dynamicLinkData) {
-      final link = dynamicLinkData.link.toString().split('/');
-      var tapid = link[5];
-      print(tapid);
 
-      Navigator.of(context)
-          .pushNamed(RoutesConstants.deeplink, arguments: tapid);
-    }).onError((error) {
-      // Handle errors
-    });
-  }
-
-  Future<void> _handleDeepLink(PendingDynamicLinkData data) async {
-    final Uri? deepLink = data.link;
-    if (data == null)
-      return; // If there is no deep link provided, the data is null.
-    var isInStore = deepLink!.pathSegments.contains('some-path');
-    if (isInStore)
-      await _doSomething(deepLink.queryParameters['key'].toString());
-  }
-
-  Future<void> _doSomething(String queryValue) {
-    //Do something when deep link triggered
-    print(queryValue);
-    throw '';
-  }
 }

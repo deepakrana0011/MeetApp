@@ -94,7 +94,7 @@ class _ContactDetailState extends State<ContactDetail> {
                                 padding: scaler!.getPaddingLTRB(2, 1, 0, 0),
                                 child: GestureDetector(
                                     onTap: () {
-                                      Navigator.pop(context);
+                                      Navigator.of(context).pop();
                                     },
                                     child: Icon(
                                       Icons.arrow_back_outlined,

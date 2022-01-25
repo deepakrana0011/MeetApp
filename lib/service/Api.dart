@@ -10,6 +10,7 @@ import 'package:meetapp/constants/api_constants.dart';
 import 'package:meetapp/helper/dialog_helper.dart';
 import 'package:meetapp/helper/shared_pref.dart';
 import 'package:meetapp/model/CreateLinkResponse.dart';
+import 'package:meetapp/model/DeleteTapUserResponse.dart';
 import 'package:meetapp/model/ForgotPasswordResponse.dart';
 import 'package:meetapp/model/GetLocationResponse.dart';
 import 'package:meetapp/model/GetProfileResponse.dart';
@@ -32,8 +33,7 @@ import '../locator.dart';
 class Api {
   var client = new http.Client();
   Dio dio = locator<Dio>();
-  SaveToken saveToken= locator<SaveToken>();
-
+  SaveToken saveToken = locator<SaveToken>();
 
   Future<SignUpResponse> signup(
       BuildContext context,
@@ -67,7 +67,6 @@ class Api {
       }
       var response = await dio.post(ApiConstants.BASE_URL + ApiConstants.SIGNUP,
           data: FormData.fromMap(map));
-
 
       return SignUpResponse.fromJson(json.decode(response.toString()));
     } on DioError catch (e) {
@@ -110,9 +109,9 @@ class Api {
       var options =
           BaseOptions(baseUrl: ApiConstants.BASE_URL, headers: headerMap);
       dio.options = options;
-      var id=SharedPref.prefs?.getString(SharedPref.USER_ID);
+      var id = SharedPref.prefs?.getString(SharedPref.USER_ID);
       var response =
-          await dio.get(ApiConstants.BASE_URL + ApiConstants.USERPROFILE+id!);
+          await dio.get(ApiConstants.BASE_URL + ApiConstants.USERPROFILE + id!);
       return GetProfileResponse.fromJson(json.decode(response.toString()));
     } on DioError catch (e) {
       if (e.response != null) {
@@ -155,20 +154,19 @@ class Api {
     }
   }
 
- Future<Links> getLinks() async {
+  Future<Links> getLinks() async {
     try {
       var headerMap = {
         "Content-Type": "application/json",
         "Authorization": SharedPref.prefs?.getString(SharedPref.TOKEN),
       };
       var options =
-      BaseOptions(baseUrl: ApiConstants.BASE_URL, headers: headerMap);
+          BaseOptions(baseUrl: ApiConstants.BASE_URL, headers: headerMap);
       dio.options = options;
-      var id=SharedPref.prefs?.getString(SharedPref.USER_ID);
+      var id = SharedPref.prefs?.getString(SharedPref.USER_ID);
       var response =
-      await dio.get(ApiConstants.BASE_URL + ApiConstants.GET_LINK+id!);
-     return Links.fromJson(jsonDecode(response.toString()));
-
+          await dio.get(ApiConstants.BASE_URL + ApiConstants.GET_LINK + id!);
+      return Links.fromJson(jsonDecode(response.toString()));
     } on DioError catch (e) {
       if (e.response != null) {
         var errorData = jsonDecode(e.response.toString());
@@ -180,33 +178,34 @@ class Api {
     }
   }
 
- Future<UpdateLinkResponse> updateLink(BuildContext context, writeitem,  link) async {
-   var map = <String, dynamic>{
-     "type": writeitem,
-     "link": link,
-   };
+  Future<UpdateLinkResponse> updateLink(
+      BuildContext context, writeitem, link) async {
+    var map = <String, dynamic>{
+      "type": writeitem,
+      "link": link,
+    };
 
-   try {
-     var headerMap = {
-       "Content-Type": "application/json",
-       "Authorization": SharedPref.prefs?.getString(SharedPref.TOKEN),
-     };
-     var options =
-     BaseOptions(baseUrl: ApiConstants.BASE_URL, headers: headerMap);
-     dio.options = options;
+    try {
+      var headerMap = {
+        "Content-Type": "application/json",
+        "Authorization": SharedPref.prefs?.getString(SharedPref.TOKEN),
+      };
+      var options =
+          BaseOptions(baseUrl: ApiConstants.BASE_URL, headers: headerMap);
+      dio.options = options;
 
-     var response = await dio
-         .put(ApiConstants.BASE_URL + ApiConstants.UPDATE_LINK, data: map);
-     return UpdateLinkResponse.fromJson(json.decode(response.toString()));
-   } on DioError catch (e) {
-     if (e.response != null) {
-       var errorData = jsonDecode(e.response.toString());
-       var errorMessage = errorData["error"];
-       throw FetchDataException(errorMessage);
-     } else {
-       throw SocketException("");
-     }
-   }
+      var response = await dio
+          .put(ApiConstants.BASE_URL + ApiConstants.UPDATE_LINK, data: map);
+      return UpdateLinkResponse.fromJson(json.decode(response.toString()));
+    } on DioError catch (e) {
+      if (e.response != null) {
+        var errorData = jsonDecode(e.response.toString());
+        var errorMessage = errorData["error"];
+        throw FetchDataException(errorMessage);
+      } else {
+        throw SocketException("");
+      }
+    }
   }
 
   Future<GetLocationResponse> getLocationResponse() async {
@@ -216,12 +215,11 @@ class Api {
         "Authorization": SharedPref.prefs?.getString(SharedPref.TOKEN),
       };
       var options =
-      BaseOptions(baseUrl: ApiConstants.BASE_URL, headers: headerMap);
+          BaseOptions(baseUrl: ApiConstants.BASE_URL, headers: headerMap);
       dio.options = options;
-      var response =
-      await dio.get(ApiConstants.BASE_URL + ApiConstants.GET_USERS_LOCATION);
+      var response = await dio
+          .get(ApiConstants.BASE_URL + ApiConstants.GET_USERS_LOCATION);
       return GetLocationResponse.fromJson(jsonDecode(response.toString()));
-
     } on DioError catch (e) {
       if (e.response != null) {
         var errorData = jsonDecode(e.response.toString());
@@ -233,7 +231,8 @@ class Api {
     }
   }
 
-  Future<UpdateLocationResponse>updateLocation(BuildContext context, double? lat, double? long) async {
+  Future<UpdateLocationResponse> updateLocation(
+      BuildContext context, double? lat, double? long) async {
     var map = <String, dynamic>{
       "longitude": long,
       "latitude": lat,
@@ -245,7 +244,7 @@ class Api {
         "Authorization": SharedPref.prefs?.getString(SharedPref.TOKEN),
       };
       var options =
-      BaseOptions(baseUrl: ApiConstants.BASE_URL, headers: headerMap);
+          BaseOptions(baseUrl: ApiConstants.BASE_URL, headers: headerMap);
       dio.options = options;
 
       var response = await dio
@@ -262,32 +261,41 @@ class Api {
     }
   }
 
-  Future<UpdateUserResponse> updateUser(BuildContext context, String fname, String lname, String age, String description,String email, String file) async{
+  Future<UpdateUserResponse> updateUser(
+      BuildContext context,
+      String fname,
+      String lname,
+      String age,
+      String description,
+      String email,
+      String file) async {
     try {
       var map = <String, dynamic>{
         "firstName": fname,
         "lastName": lname,
         "description": description,
-        "email":email,
+        "email": email,
         "dob": age
       };
 
-        var image = file.contains('static')? file:
-        MultipartFile.fromFileSync(file, filename: "img.png");
+      var image = file.contains('static')
+          ? file
+          : MultipartFile.fromFileSync(file, filename: "img.png");
 
-        var imageMap = {
-          'profilePic': image,
-        };
-        map.addAll(imageMap);
+      var imageMap = {
+        'profilePic': image,
+      };
+      map.addAll(imageMap);
 
       var headerMap = {
         "Content-Type": "application/json",
         "Authorization": SharedPref.prefs?.getString(SharedPref.TOKEN),
       };
       var options =
-      BaseOptions(baseUrl: ApiConstants.BASE_URL, headers: headerMap);
+          BaseOptions(baseUrl: ApiConstants.BASE_URL, headers: headerMap);
       dio.options = options;
-      var response = await dio.put(ApiConstants.BASE_URL + ApiConstants.UPDATE_USER,
+      var response = await dio.put(
+          ApiConstants.BASE_URL + ApiConstants.UPDATE_USER,
           data: FormData.fromMap(map));
 
       return UpdateUserResponse.fromJson(json.decode(response.toString()));
@@ -306,9 +314,12 @@ class Api {
   Future<ForgotPasswordResponse> forgot(
       BuildContext context, String email) async {
     try {
-      var map = {"email": email, };
-      var response =
-      await dio.post(ApiConstants.BASE_URL + ApiConstants.FORGOT_PASSWORD, data: map);
+      var map = {
+        "email": email,
+      };
+      var response = await dio.post(
+          ApiConstants.BASE_URL + ApiConstants.FORGOT_PASSWORD,
+          data: map);
       return ForgotPasswordResponse.fromJson(json.decode(response.toString()));
     } on DioError catch (e) {
       if (e.response != null) {
@@ -320,12 +331,18 @@ class Api {
       }
     }
   }
+
   Future<VerifyResponse> verify(
-      BuildContext context, int code,) async {
+    BuildContext context,
+    int code,
+  ) async {
     try {
-      var map = {"email": SharedPref.prefs!.getString(SharedPref.Email), "verifyToken": code};
-      var response =
-      await dio.post(ApiConstants.BASE_URL + ApiConstants.verify, data: map);
+      var map = {
+        "email": SharedPref.prefs!.getString(SharedPref.Email),
+        "verifyToken": code
+      };
+      var response = await dio.post(ApiConstants.BASE_URL + ApiConstants.verify,
+          data: map);
       return VerifyResponse.fromJson(json.decode(response.toString()));
     } on DioError catch (e) {
       if (e.response != null) {
@@ -337,12 +354,14 @@ class Api {
       }
     }
   }
-  Future<ResendResponse> resend(
-      BuildContext context) async {
+
+  Future<ResendResponse> resend(BuildContext context) async {
     try {
-      var map = {"email": SharedPref.prefs!.getString(SharedPref.Email),};
+      var map = {
+        "email": SharedPref.prefs!.getString(SharedPref.Email),
+      };
       var response =
-      await dio.put(ApiConstants.BASE_URL + ApiConstants.resend, data: map);
+          await dio.put(ApiConstants.BASE_URL + ApiConstants.resend, data: map);
       return ResendResponse.fromJson(json.decode(response.toString()));
     } on DioError catch (e) {
       if (e.response != null) {
@@ -354,6 +373,7 @@ class Api {
       }
     }
   }
+
   Future<GetTapUserResponse> getUsers() async {
     try {
       var headerMap = {
@@ -361,13 +381,12 @@ class Api {
         "Authorization": SharedPref.prefs?.getString(SharedPref.TOKEN),
       };
       var options =
-      BaseOptions(baseUrl: ApiConstants.BASE_URL, headers: headerMap);
+          BaseOptions(baseUrl: ApiConstants.BASE_URL, headers: headerMap);
       dio.options = options;
 
       var response =
-      await dio.get(ApiConstants.BASE_URL + ApiConstants.getTapUser);
+          await dio.get(ApiConstants.BASE_URL + ApiConstants.getTapUser);
       return GetTapUserResponse.fromJson(jsonDecode(response.toString()));
-
     } on DioError catch (e) {
       if (e.response != null) {
         var errorData = jsonDecode(e.response.toString());
@@ -378,11 +397,11 @@ class Api {
       }
     }
   }
+
   Future<SaveTapUserResponse> saveTapUser(
       BuildContext context, String id) async {
     var map = {
       "tapUserid": id,
-
     };
 
     try {
@@ -391,7 +410,7 @@ class Api {
         "Authorization": SharedPref.prefs?.getString(SharedPref.TOKEN),
       };
       var options =
-      BaseOptions(baseUrl: ApiConstants.BASE_URL, headers: headerMap);
+          BaseOptions(baseUrl: ApiConstants.BASE_URL, headers: headerMap);
       dio.options = options;
 
       var response = await dio
@@ -407,22 +426,49 @@ class Api {
       }
     }
   }
+
   Future<GetUserDetailResponse> getUserDetail(id) async {
     try {
-
       var headerMap = {
         "Content-Type": "application/json",
         "Authorization": SharedPref.prefs?.getString(SharedPref.TOKEN),
       };
       var options =
-      BaseOptions(baseUrl: ApiConstants.BASE_URL, headers: headerMap);
+          BaseOptions(baseUrl: ApiConstants.BASE_URL, headers: headerMap);
       dio.options = options;
 
-      var response =
-      await dio.get(ApiConstants.BASE_URL + ApiConstants.getUserDetail+id);
+      var response = await dio
+          .get(ApiConstants.BASE_URL + ApiConstants.getUserDetail + id);
       print(response);
       return GetUserDetailResponse.fromJson(jsonDecode(response.toString()));
+    } on DioError catch (e) {
+      if (e.response != null) {
+        var errorData = jsonDecode(e.response.toString());
+        var errorMessage = errorData["error"];
+        throw FetchDataException(errorMessage);
+      } else {
+        throw SocketException("");
+      }
+    }
+  }
 
+  Future<DeleteTapUserResponse> deleteTapUser(
+      String id) async {
+    var data = {
+      "tapUserid": id
+    };
+
+    try {
+      var headerMap = {
+        "Content-Type": "application/json",
+        "Authorization": SharedPref.prefs?.getString(SharedPref.TOKEN),
+      };
+      var options =
+          BaseOptions(baseUrl: ApiConstants.BASE_URL, headers: headerMap);
+      dio.options = options;
+
+      var response = await dio.post(ApiConstants.BASE_URL + ApiConstants.deleteTapUser, data: data);
+      return DeleteTapUserResponse.fromJson(json.decode(response.toString()));
     } on DioError catch (e) {
       if (e.response != null) {
         var errorData = jsonDecode(e.response.toString());

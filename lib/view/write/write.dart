@@ -81,6 +81,7 @@ class _WriteState extends State<Write> {
                         padding: scaler!.getPaddingLTRB(3, 0, 3, 0),
                         child: ListView.builder(
                             shrinkWrap: true,
+                            physics: ClampingScrollPhysics(),
                             itemCount: provider.writeitems.length,
                             itemBuilder: (BuildContext context, int index) {
                               return Padding(
