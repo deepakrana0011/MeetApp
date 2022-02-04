@@ -61,13 +61,13 @@ class EditProfileProvider extends BaseProvider{
 
     final picker = ImagePicker();
     if (type == 1) {
-      var pickedImage = await picker.pickImage(source: ImageSource.camera);
+      var pickedImage = await picker.getImage(source: ImageSource.camera);
       if (pickedImage != null) {
         setImage(File(pickedImage.path));
         //setImage(File(pickedImage.path));
       }
     } else {
-      var pickedImage = await picker.pickImage(source: ImageSource.gallery);
+      var pickedImage = await picker.getImage(source: ImageSource.gallery);
 
 
       if (pickedImage != null) {

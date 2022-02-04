@@ -52,15 +52,13 @@ dependencies:
   nfc_manager: ^3.1.0
   permission_handler: ^8.3.0
   share_plus: ^3.0.4
-  ##uni_links: ^0.2.0
+  #uni_links: ^0.5.1
   url_launcher: ^6.0.18
   mailto: ^2.0.0
   flutter_launch: ^0.3.0
-  firebase_dynamic_links: ^4.0.4
-  firebase_core :
-  firebase_analytics: ^9.0.5
-  uni_links2: ^0.6.0+2
+  #uni_links2: ^0.6.0+2
   get: ^4.6.1
+  webview_flutter: ^3.0.0
 
 
 dev_dependencies:

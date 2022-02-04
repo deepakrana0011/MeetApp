@@ -19,7 +19,7 @@ import 'package:meetapp/service/FetchDataExpection.dart';
 
 
 //import 'package:uni_links/uni_links.dart';
-import 'package:uni_links2/uni_links.dart';
+//import 'package:uni_links2/uni_links.dart';
 
 class ProfileProvider extends BaseProvider {
   late GetProfileResponse profile;
@@ -32,6 +32,7 @@ class ProfileProvider extends BaseProvider {
   GlobalKey<NavigatorState> navigatorKey = GlobalKey();
   SaveToken saveToken = locator<SaveToken>();
   late StreamSubscription _sub;
+  List taplink=[];
  // DynamicLinksApi dynamicLinksApi = locator<DynamicLinksApi>();
 
   // ProfileProvider()
@@ -146,39 +147,47 @@ class ProfileProvider extends BaseProvider {
     });
   }
 
-  Future<void> getLinks(BuildContext context) async {
+  /*Future<void> getLinks(BuildContext context) async {
     _sub = uriLinkStream.listen((event) {
-   try{
-  final List link = event.toString().split('/');
-  var tapid = link[5];
+   try {
+    taplink= event.toString().split('/');
+     if (taplink.isNotEmpty) {
 
-  WidgetsBinding.instance?.addPostFrameCallback((_) {
-    Navigator.of(context)
-        .pushNamed(RoutesConstants.deeplink, arguments: tapid);
-  });
-    }
+       var tapid = taplink[5];
+
+       WidgetsBinding.instance?.addPostFrameCallback((_) {
+         Navigator.of(context)
+             .pushNamed(RoutesConstants.deeplink, arguments: tapid);
+       });
+     }
+
+   }
+
     on FetchDataException catch (c){
       DialogHelper.showMessage(context, c.toString());
 
     }
 
     });
-
+    final initialLink = await getInitialUri();
     try {
-      final initialLink = await getInitialUri();
-      final link = initialLink.toString().split('/');
 
-      var tapid = link[5];
+      taplink= initialLink.toString().split('/');
 
-      WidgetsBinding.instance?.addPostFrameCallback((_) {
-        Navigator.of(context)
-            .pushNamed(RoutesConstants.deeplink, arguments: tapid);
-      });
+      if (taplink.isNotEmpty) {
+
+        var tapid = taplink[5];
+
+        WidgetsBinding.instance?.addPostFrameCallback((_) {
+          Navigator.of(context)
+              .pushNamed(RoutesConstants.deeplink, arguments: tapid);
+        });
+      }
     } on Exception {
       // Handle exception by warning the user their action did not succeed
       // return?
     }
-  }
+  }*/
 
 
 }

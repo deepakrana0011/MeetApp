@@ -1,37 +1,38 @@
-
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screen_scaler/flutter_screen_scaler.dart';
+import 'package:meetapp/constants/api_constants.dart';
 import 'package:meetapp/constants/color_constants.dart';
 import 'package:meetapp/extensions/allExtensions.dart';
 import 'package:meetapp/provider/EditProfileProvider.dart';
 import 'package:meetapp/view/base_view.dart';
 import 'package:meetapp/widgets/roundCornerShape.dart';
-
+import 'package:url_launcher/url_launcher.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 class PrivacyPolicy extends StatefulWidget {
   final bool privacypolicy;
 
-  const PrivacyPolicy({Key? key, required this.privacypolicy}) : super(key: key);
+  const PrivacyPolicy({Key? key, required this.privacypolicy})
+      : super(key: key);
   @override
   _PrivacyPolicyState createState() => _PrivacyPolicyState();
 }
 
 class _PrivacyPolicyState extends State<PrivacyPolicy> {
   ScreenScaler? scaler;
-
-
+  int pos = 1;
 
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
-
-
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+
+    if (Platform.isAndroid) WebView.platform = AndroidWebView();
   }
 
   @override
@@ -39,7 +40,34 @@ class _PrivacyPolicyState extends State<PrivacyPolicy> {
     if (scaler == null) {
       scaler = new ScreenScaler()..init(context);
     }
-    return SafeArea(
+    return IndexedStack(index: pos, children: <Widget>[
+      WebView(
+        navigationDelegate: (NavigationRequest request)  {
+          if (request.url.contains("mailto:")) {
+            launch(request.url);
+            return NavigationDecision.navigate;
+          }
+          return NavigationDecision.navigate;
+        },
+        initialUrl: ApiConstants.privacy_policy,
+        javascriptMode: JavascriptMode.unrestricted,
+        onPageStarted: (value) {
+          setState(() {
+            pos = 1;
+          });
+        },
+        onPageFinished: (value) {
+          setState(() {
+            pos = 0;
+          });
+        },
+      ),
+      Center(
+          child: CircularProgressIndicator(
+              valueColor: AlwaysStoppedAnimation<Color>(
+                  ColorConstants.colorButtonbgColor))),
+    ]);
+    /* return SafeArea(
       child: Scaffold(
           appBar:
           widget.privacypolicy?AppBar(
@@ -81,7 +109,7 @@ class _PrivacyPolicyState extends State<PrivacyPolicy> {
                 );
             },
           )),
-    );
+    );*/
   }
 }
 

@@ -19,4 +19,5 @@ class ApiConstants{
   static const deleteTapUser="deletetapuser";
   static const getUserDetail="getalluserdetail/";
   static const Website_Url="http://www.meetthering.com/";
+  static const privacy_policy="http://18.130.225.164/#/privacy";
 }

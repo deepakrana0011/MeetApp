@@ -13,4 +13,5 @@ class RoutesConstants {
   static const contacts="contacts";
   static const ContactDetail="ContactDetail";
   static const deeplink="/deeplink";
+  static const editimage="editimage";
 }

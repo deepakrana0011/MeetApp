@@ -1,3 +1,4 @@
+/*
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
 import 'package:meetapp/constants/route_constants.dart';
@@ -71,11 +72,13 @@ class DynamicLinksApi {
         packageName: 'com.meetmeyou.meetmeyou',
         minimumVersion: 1,
       ),
-      /*iosParameters: IosParameters(
+      */
+/*iosParameters: IosParameters(
         bundleId: 'your_ios_bundle_identifier',
         minimumVersion: '1',
         appStoreId: 'your_app_store_id',
-      ),*/
+      ),*//*
+
     );
   dynamicUrl=  await dynamicLinks.buildLink(parameters);
   shareLink.link=dynamicUrl;
@@ -103,3 +106,4 @@ class DynamicLinksApi {
     }
   }
 }
+*/

@@ -24,6 +24,9 @@ class Router {
             builder: (_) => LoginPage(), settings: settings);
 
 
+
+
+
       case RoutesConstants.signup:
         return MaterialPageRoute(
             builder: (_) => SignUp(), settings: settings);

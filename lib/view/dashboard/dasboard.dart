@@ -88,9 +88,9 @@ class _DashBoardState extends State<DashBoard> {
         onModelReady: (provider) {
           print('abc');
 
-          if(widget.logincheck==null){
+          /*if(widget.logincheck==null){
             provider.getLinks(context);
-          }
+          }*/
           //provider.dynamicLinksApi.handleDynamicLink(context);
 
          // ModalRoute.of(context)?.settings.name == RoutesConstants.dashboard ? provider.getLinks(context):Container() ;

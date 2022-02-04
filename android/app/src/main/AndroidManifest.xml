@@ -32,6 +32,7 @@
         android:label="meetapp"
         android:name=".MainApplication"
         android:allowBackup="false"
+        android:usesCleartextTraffic="true"
         android:icon="@mipmap/ic_launcher">
        <meta-data android:name="com.google.android.geo.API_KEY"
            android:value="AIzaSyBx9yh9s0elbP7rotXMLC5-CvPdGLr52io"/>

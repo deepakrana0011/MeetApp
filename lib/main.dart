@@ -2,7 +2,6 @@
 import 'dart:async';
 import 'dart:ui';
 
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:meetapp/constants/color_constants.dart';
@@ -16,6 +15,7 @@ import 'helper/method_channel_helper.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
 
   await MethodChannelCall.initMethodChannel();
 

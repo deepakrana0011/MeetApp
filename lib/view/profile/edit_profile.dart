@@ -365,6 +365,7 @@ class _EditProfileState extends State<EditProfile> {
                               ),
                             ),
 
+
                           ],
                         ),
                       ),
@@ -377,5 +378,3 @@ class _EditProfileState extends State<EditProfile> {
     );
   }
 }
-
-//

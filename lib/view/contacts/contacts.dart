@@ -203,7 +203,7 @@ class _ContactsState extends State<Contacts> {
                                                         scaler!.getHeight(1.5),
                                                   ),
                                                 )))
-                                      ],
+                                       ],
                                     ),
                                   );
                                 },
@@ -219,4 +219,3 @@ class _ContactsState extends State<Contacts> {
   }
 }
 
-//

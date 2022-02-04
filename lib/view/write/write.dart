@@ -48,6 +48,7 @@ class _WriteState extends State<Write> {
       setState(() {
         isAvailable = value;
       });
+
       print(isAvailable);
 
     });

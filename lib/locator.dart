@@ -22,7 +22,7 @@ GetIt locator = GetIt.instance;
 
 void setupLocator() {
   locator.registerLazySingleton(() => Api());
-  locator.registerLazySingleton(() => DynamicLinksApi());
+
   locator.registerLazySingleton<SaveToken>(() => SaveToken());
   locator.registerLazySingleton<ShareLink>(() => ShareLink());
 
