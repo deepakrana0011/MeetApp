@@ -1,4 +1,4 @@
-package com.example.meetapp
+package com.dating.meetapp
 
 import android.app.PendingIntent
 import android.content.Intent
@@ -18,7 +18,7 @@ class MainActivity : FlutterActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         try {
-            if (intent != null && intent.dataString != null && intent.dataString!!.startsWith("http://18.130.225.164/#/meet/")) {
+            if (intent != null && intent.dataString != null && intent.dataString!!.startsWith("http://app.meetthering.com/#/meet/")) {
                 val channel = MethodChannel(getBinaryMessenger(), "method_channal")
                 val data = intent.data
                 val url = data.toString()
@@ -66,7 +66,7 @@ class MainActivity : FlutterActivity() {
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
         try {
-            if (NfcAdapter.ACTION_NDEF_DISCOVERED == intent.action && intent.dataString != null && intent.dataString!!.startsWith("http://18.130.225.164/#/meet/")) {
+            if (NfcAdapter.ACTION_NDEF_DISCOVERED == intent.action && intent.dataString != null && intent.dataString!!.startsWith("http://app.meetthering.com/#/meet/")) {
                 val channel = MethodChannel(getBinaryMessenger(), "method_channal")
                 val data = intent.data
                 val url = data.toString()

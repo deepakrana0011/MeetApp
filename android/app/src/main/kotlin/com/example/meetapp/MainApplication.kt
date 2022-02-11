@@ -1,4 +1,4 @@
-package com.example.meetapp
+package com.dating.meetapp
 
 import android.app.Application
 
