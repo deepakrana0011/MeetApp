@@ -1,4 +1,3 @@
-
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
@@ -36,9 +35,8 @@ class _SignUpState extends State<SignUp> {
   final _passwordController = TextEditingController();
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   bool _passwordVisible = false;
-  bool checkboxValue =false;
-  bool privacypolicy=true;
-
+  bool checkboxValue = false;
+  bool privacypolicy = true;
 
   @override
   void initState() {
@@ -77,28 +75,29 @@ class _SignUpState extends State<SignUp> {
                                 clipBehavior: Clip.antiAliasWithSaveLayer,
                                 overflow: Overflow.visible,
                                 children: [
-                             provider.file==''?     CircleAvatar(
-                                      radius: 50,
-                                      backgroundColor:
-                                          ColorConstants.whiteColor,
-                                      child: Icon(
-                                        Icons.person,
-                                        size: 80,
-                                        color: ColorConstants.colorTextAppBar,
-                                      )):
-                             CircleAvatar(
-                                 radius: 50,
-                                 backgroundColor:
-                                 ColorConstants.whiteColor,
-
-                                 child: ImageView(
-                                   width: scaler!.getWidth(25),
-                                   radius: scaler!.getWidth(14),
-                                   height: scaler!.getWidth(25),
-                                   circleCrop: true,
-                                 path: provider.file,fit: BoxFit.cover,
-                                 ))
-                                  ,
+                                  provider.file == ''
+                                      ? CircleAvatar(
+                                          radius: 50,
+                                          backgroundColor:
+                                              ColorConstants.whiteColor,
+                                          child: Icon(
+                                            Icons.person,
+                                            size: 80,
+                                            color:
+                                                ColorConstants.colorTextAppBar,
+                                          ))
+                                      : CircleAvatar(
+                                          radius: 50,
+                                          backgroundColor:
+                                              ColorConstants.whiteColor,
+                                          child: ImageView(
+                                            width: scaler!.getWidth(25),
+                                            radius: scaler!.getWidth(14),
+                                            height: scaler!.getWidth(25),
+                                            circleCrop: true,
+                                            path: provider.file,
+                                            fit: BoxFit.cover,
+                                          )),
                                   Positioned(
                                       top: 60,
                                       left: 80,
@@ -159,16 +158,16 @@ class _SignUpState extends State<SignUp> {
                               padding: scaler!.getPaddingLTRB(6, 0, 6, 0),
                               child: Container(
                                 child: TextFormField(
-                                  textCapitalization: TextCapitalization.sentences,
+                                  textCapitalization:
+                                      TextCapitalization.sentences,
                                   cursorColor:
-                                  ColorConstants.colorButtonbgColor,
+                                      ColorConstants.colorButtonbgColor,
                                   controller: fnamecontroller,
                                   style: ViewDecoration.textFieldStyle(
                                       scaler!.getTextSize(10)),
                                   decoration:
-
-                                  ViewDecoration.inputDecorationWithCurve(
-                                      "First Name", scaler!),
+                                      ViewDecoration.inputDecorationWithCurve(
+                                          "First Name", scaler!),
                                   textInputAction: TextInputAction.next,
                                   keyboardType: TextInputType.text,
                                   validator: (value) {
@@ -185,7 +184,8 @@ class _SignUpState extends State<SignUp> {
                               padding: scaler!.getPaddingLTRB(6, 0.8, 6, 0),
                               child: Container(
                                 child: TextFormField(
-                                  textCapitalization: TextCapitalization.sentences,
+                                  textCapitalization:
+                                      TextCapitalization.sentences,
                                   cursorColor:
                                       ColorConstants.colorButtonbgColor,
                                   controller: lnamecontroller,
@@ -329,124 +329,120 @@ class _SignUpState extends State<SignUp> {
                                 ),
                               ),
                             ),
-                        CheckboxListTile(
-                          value: checkboxValue,
-
-                          title: Transform.translate(
-                            offset: const Offset(-15, 0),
-                            child: Wrap(
-                              children: [
-                                new Text(
-                                  'I agree to terms and conditions and ',
-                                  
-                                ).regularText(ColorConstants.colorTextAppBar, scaler!.getTextSize(9)),
-                                 GestureDetector(
-                                   onTap: (){
-                                     Navigator.of(context).pushNamed(RoutesConstants.privacypolicy,
-                                     arguments: privacypolicy);
-
-                                   },
-                                   child: Text(
-                                     'Privacy & Policy',
-
-                                   ).mediumText(ColorConstants.colorButtonbgColor, scaler!.getTextSize(9),TextAlign.left),
-                                 )
-
-                              ],
+                            CheckboxListTile(
+                              value: checkboxValue,
+                              title: Transform.translate(
+                                offset: const Offset(-15, 0),
+                                child: Wrap(
+                                  children: [
+                                    new Text(
+                                      'I agree to terms and conditions and ',
+                                    ).regularText(
+                                        ColorConstants.colorTextAppBar,
+                                        scaler!.getTextSize(9)),
+                                    GestureDetector(
+                                      onTap: () {
+                                        Navigator.of(context).pushNamed(
+                                            RoutesConstants.privacypolicy,
+                                            arguments: privacypolicy);
+                                      },
+                                      child: Text(
+                                        'Privacy & Policy',
+                                      ).mediumText(
+                                          ColorConstants.colorButtonbgColor,
+                                          scaler!.getTextSize(9),
+                                          TextAlign.left),
+                                    )
+                                  ],
+                                ),
+                              ),
+                              controlAffinity: ListTileControlAffinity.leading,
+                              activeColor: ColorConstants.colorButtonbgColor,
+                              onChanged: (bool? value) {
+                                setState(() {
+                                  checkboxValue = value!;
+                                });
+                              },
                             ),
-                          ),
-                          controlAffinity: ListTileControlAffinity.leading,
-                          activeColor: ColorConstants.colorButtonbgColor, onChanged: (bool? value) {
-                          setState(() {
-                            checkboxValue = value!;
-                          });
-                        },
-                        ),
                             provider.state == ViewState.Busy
                                 ? Padding(
-                                  padding: scaler!.getPaddingLTRB(0, 0, 0, 0),
-                                  child: CircularProgressIndicator(
-                                      valueColor: AlwaysStoppedAnimation<Color>(ColorConstants.colorButtonbgColor)
-                                  ),
-                                ):  Padding(
-                              padding: scaler!.getPaddingLTRB(6, 0, 6, 0),
-                              child: GestureDetector(
-                                onTap: () async {
-                                  /*Navigator.of(context).pushNamed(RoutesConstants.verification,
+                                    padding: scaler!.getPaddingLTRB(0, 0, 0, 0),
+                                    child: CircularProgressIndicator(
+                                        valueColor: AlwaysStoppedAnimation<
+                                                Color>(
+                                            ColorConstants.colorButtonbgColor)),
+                                  )
+                                : Padding(
+                                    padding: scaler!.getPaddingLTRB(6, 0, 6, 0),
+                                    child: GestureDetector(
+                                      onTap: () async {
+                                        /*Navigator.of(context).pushNamed(RoutesConstants.verification,
                                       );*/
-                                  if(provider.file==''){
-                                    DialogHelper.showMessage(context, 'Please select profile image');
-
-                                  }
-                                  else if(provider.status!=PermissionStatus.granted){
-
-                                   provider.determinePosition(context);
-
-                                  }
-                                  else if(checkboxValue==false){
-                                    DialogHelper.showMessage(context, 'Please agree to terms and conditions');
-                                  }
-
-
-                                  else if (_formKey.currentState!.validate()) {
-                                    KeyboardHelper.hideKeyboard(context);
-                                    provider
-                                        .signup(
-                                        context,
-                                        fnamecontroller.text.trim(),
-                                        lnamecontroller.text.trim(),
-                                        provider.datetime.text.trim(),
-                                        desccontroller.text.trim(),
-                                        _emailController.text.trim(),
-                                        _passwordController.text.trim(),
-                                      provider.file,
-                                      provider.lat,
-                                      provider.long
-
-
-
-                                    ).then((value) {
-                                     if(value){
-
-
-                                     }
-
-
-                                    });
-                                  }
-                                },
-                                child: Container(
-                                  width: MediaQuery.of(context).size.width,
-                                  height: scaler!.getHeight(4),
-                                  child: RoundCornerShape(
-                                    bgColor: ColorConstants.colorButtonbgColor,
-                                    radius: 8,
-                                    child: Padding(
-                                      padding:
-                                          scaler!.getPaddingLTRB(0, 0, 0, 0),
-                                      child: Center(
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            Padding(
-                                              padding: scaler!
-                                                  .getPaddingLTRB(0.5, 0, 0, 0),
-                                              child: Text(
-                                                'SignUp',
-                                              ).buttonText(
-                                                  ColorConstants.whiteColor,
-                                                  scaler!.getTextSize(11),
-                                                  TextAlign.center),
+                                        if (provider.file == '') {
+                                          DialogHelper.showMessage(context,
+                                              'Please select profile image');
+                                        } else if (provider.position == null) {
+                                          provider.determinePosition(context);
+                                        } else if (checkboxValue == false) {
+                                          DialogHelper.showMessage(context,
+                                              'Please agree to terms and conditions');
+                                        } else if (_formKey.currentState!
+                                            .validate()) {
+                                          KeyboardHelper.hideKeyboard(context);
+                                          provider
+                                              .signup(
+                                                  context,
+                                                  fnamecontroller.text.trim(),
+                                                  lnamecontroller.text.trim(),
+                                                  provider.datetime.text.trim(),
+                                                  desccontroller.text.trim(),
+                                                  _emailController.text.trim(),
+                                                  _passwordController.text
+                                                      .trim(),
+                                                  provider.file,
+                                                  provider.lat,
+                                                  provider.long)
+                                              .then((value) {
+                                            if (value) {}
+                                          });
+                                        }
+                                      },
+                                      child: Container(
+                                        width:
+                                            MediaQuery.of(context).size.width,
+                                        height: scaler!.getHeight(4),
+                                        child: RoundCornerShape(
+                                          bgColor:
+                                              ColorConstants.colorButtonbgColor,
+                                          radius: 8,
+                                          child: Padding(
+                                            padding: scaler!
+                                                .getPaddingLTRB(0, 0, 0, 0),
+                                            child: Center(
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  Padding(
+                                                    padding: scaler!
+                                                        .getPaddingLTRB(
+                                                            0.5, 0, 0, 0),
+                                                    child: Text(
+                                                      'SignUp',
+                                                    ).buttonText(
+                                                        ColorConstants
+                                                            .whiteColor,
+                                                        scaler!.getTextSize(11),
+                                                        TextAlign.center),
+                                                  ),
+                                                ],
+                                              ),
                                             ),
-                                          ],
+                                          ),
                                         ),
                                       ),
                                     ),
                                   ),
-                                ),
-                              ),
-                            ),
                             SizedBox(
                               height: scaler!.getHeight(1.2),
                             ),
@@ -454,7 +450,8 @@ class _SignUpState extends State<SignUp> {
                               padding: scaler!.getPaddingLTRB(0, 0, 0, 1.5),
                               child: GestureDetector(
                                 onTap: () {
-                                  Navigator.pushNamedAndRemoveUntil(context, "login", (Route<dynamic> route) => false);
+                                  Navigator.pushNamedAndRemoveUntil(context,
+                                      "login", (Route<dynamic> route) => false);
                                 },
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,

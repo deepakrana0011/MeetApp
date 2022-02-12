@@ -11,6 +11,7 @@ class MethodChannelCall{
       switch (call.method) {
         case 'onTap':
           final link = call.arguments.toString().split('/');
+          print("link is ${link}");
           var tapid = link[5];
 
           Get.to(ContactDetail(
