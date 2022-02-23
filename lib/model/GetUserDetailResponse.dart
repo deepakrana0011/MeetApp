@@ -64,8 +64,8 @@ class Datum {
     description: json["description"],
     password: json["password"],
     status: json["status"],
-    longitude: json["longitude"].toDouble(),
-    latitude: json["latitude"].toDouble(),
+    longitude: json["longitude"]!=null?json["longitude"].toDouble():0.0,
+    latitude: json["latitude"]!=null?json["latitude"].toDouble():0.0,
     verifyToken: json["verifyToken"],
     verifyStatus: json["verifyStatus"],
     createdAt: DateTime.parse(json["createdAt"]),
@@ -100,7 +100,6 @@ class Userdetail {
     required this.userId,
     required this.type,
     required this.link,
-    required this.createdAt,
     required this.v,
   });
 
@@ -108,7 +107,6 @@ class Userdetail {
   String userId;
   String type;
   String link;
-  DateTime createdAt;
   int v;
 
   factory Userdetail.fromJson(Map<String, dynamic> json) => Userdetail(
@@ -116,7 +114,6 @@ class Userdetail {
     userId: json["userId"],
     type: json["type"],
     link: json["link"],
-    createdAt: DateTime.parse(json["createdAt"]),
     v: json["__v"],
   );
 
@@ -125,7 +122,6 @@ class Userdetail {
     "userId": userId,
     "type": type,
     "link": link,
-    "createdAt": createdAt.toIso8601String(),
     "__v": v,
   };
 }

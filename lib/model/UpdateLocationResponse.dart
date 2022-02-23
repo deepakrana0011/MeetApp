@@ -9,17 +9,18 @@ class UpdateLocationResponse {
   String message;
   Data data;
 
-  factory UpdateLocationResponse.fromJson(Map<String, dynamic> json) => UpdateLocationResponse(
-    success: json["success"],
-    message: json["message"],
-    data: Data.fromJson(json["data"]),
-  );
+  factory UpdateLocationResponse.fromJson(Map<String, dynamic> json) =>
+      UpdateLocationResponse(
+        success: json["success"],
+        message: json["message"],
+        data: Data.fromJson(json["data"]),
+      );
 
   Map<String, dynamic> toJson() => {
-    "success": success,
-    "message": message,
-    "data": data.toJson(),
-  };
+        "success": success,
+        "message": message,
+        "data": data.toJson(),
+      };
 }
 
 class Data {
@@ -52,32 +53,33 @@ class Data {
   int v;
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
-    id: json["_id"],
-    firstName: json["firstName"],
-    lastName: json["lastName"],
-    dob: json["dob"],
-    email: json["email"],
-    description: json["description"],
-    status: json["status"],
-    longitude: json["longitude"].toDouble(),
-    latitude: json["latitude"].toDouble(),
-    createdAt: DateTime.parse(json["createdAt"]),
-    profilePic: json["profilePic"],
-    v: json["__v"],
-  );
+        id: json["_id"],
+        firstName: json["firstName"],
+        lastName: json["lastName"],
+        dob: json["dob"],
+        email: json["email"],
+        description: json["description"],
+        status: json["status"],
+        longitude:
+            json["longitude"] != null ? json["longitude"].toDouble() : 0.0,
+        latitude: json["latitude"] != null ? json["latitude"].toDouble() : 0.0,
+        createdAt: DateTime.parse(json["createdAt"]),
+        profilePic: json["profilePic"],
+        v: json["__v"],
+      );
 
   Map<String, dynamic> toJson() => {
-    "_id": id,
-    "firstName": firstName,
-    "lastName": lastName,
-    "dob": dob,
-    "email": email,
-    "description": description,
-    "status": status,
-    "longitude": longitude,
-    "latitude": latitude,
-    "createdAt": createdAt.toIso8601String(),
-    "profilePic": profilePic,
-    "__v": v,
-  };
+        "_id": id,
+        "firstName": firstName,
+        "lastName": lastName,
+        "dob": dob,
+        "email": email,
+        "description": description,
+        "status": status,
+        "longitude": longitude,
+        "latitude": latitude,
+        "createdAt": createdAt.toIso8601String(),
+        "profilePic": profilePic,
+        "__v": v,
+      };
 }

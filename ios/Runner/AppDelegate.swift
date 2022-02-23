@@ -26,6 +26,7 @@ import GoogleMaps
         self.url = userActivity.webpageURL?.absoluteString
         if let url = url {
             self.methodChanel?.invokeMethod("onTap", arguments: url)
+            self.url = nil
         }
         return true
     }
@@ -33,6 +34,7 @@ import GoogleMaps
     override func applicationDidBecomeActive(_ application: UIApplication) {
         if let url = url {
             self.methodChanel?.invokeMethod("onTap", arguments: url)
+            self.url = nil
         }
     }
     
