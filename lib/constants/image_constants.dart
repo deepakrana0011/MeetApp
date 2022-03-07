@@ -33,9 +33,4 @@ class ImageConstants {
   static const ic_contact_profile5 = "images/ic_contact_profile5.png";
   static const ic_contact_profile6 = "images/ic_contact_profile6.png";
   static const ic_contact_profile7 = "images/ic_contact_profile7.png";
-
-
-
-
-
 }

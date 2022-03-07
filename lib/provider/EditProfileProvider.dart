@@ -21,7 +21,7 @@ class EditProfileProvider extends BaseProvider{
   final desccontroller = TextEditingController();
   final emailController = TextEditingController();
   final datetime=new TextEditingController();
-  String file='';
+  String? file='';
 
 
   Future<void> selectAge(BuildContext context) async {
@@ -85,11 +85,11 @@ class EditProfileProvider extends BaseProvider{
 
   void getUserInfo(BuildContext context) {
     setState(ViewState.Busy);
-   fnamecontroller.text = SharedPref.prefs!.getString(SharedPref.FIRST_NAME);
-    lnamecontroller.text = SharedPref.prefs!.getString(SharedPref.LAST_NAME);
-    datetime.text = SharedPref.prefs!.getString(SharedPref.AGE);
-    desccontroller.text = SharedPref.prefs!.getString(SharedPref.DESCRIPTION);
-    emailController.text= SharedPref.prefs!.getString(SharedPref.Email);
+   fnamecontroller.text = SharedPref.prefs!.getString(SharedPref.FIRST_NAME)??"";
+    lnamecontroller.text = SharedPref.prefs!.getString(SharedPref.LAST_NAME)??"";
+    datetime.text = SharedPref.prefs!.getString(SharedPref.AGE)??"";
+    desccontroller.text = SharedPref.prefs!.getString(SharedPref.DESCRIPTION)??"";
+    emailController.text= SharedPref.prefs!.getString(SharedPref.Email)??"";
     file= SharedPref.prefs!.getString(SharedPref.profile_pic);
     print(file);
 

@@ -19,15 +19,14 @@ class SharedPref{
   static SharedPreferences? prefs;
 
   static clearSharePref() async {
-
-    prefs?.setString(TOKEN, null);
-    prefs?.setString(FIRST_NAME, null);
-    prefs?.setString(USER_ID, null);
-    prefs?.setString(profile_pic, null);
-    prefs?.setString(LAST_NAME, null);
-    prefs?.setString(AGE, null);
-    prefs?.setString(DESCRIPTION, null);
-    prefs?.setString(Email, null);
+    prefs?.setString(TOKEN, "");
+    prefs?.setString(FIRST_NAME, "");
+    prefs?.setString(USER_ID, "");
+    prefs?.setString(profile_pic, "");
+    prefs?.setString(LAST_NAME, "");
+    prefs?.setString(AGE, "");
+    prefs?.setString(DESCRIPTION, "");
+    prefs?.setString(Email, "");
 
 
   }

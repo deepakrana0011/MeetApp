@@ -16,10 +16,9 @@ import 'helper/method_channel_helper.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-
   await MethodChannelCall.initMethodChannel();
 
- // await Firebase.initializeApp();
+  // await Firebase.initializeApp();
   SharedPref.prefs = await SharedPreferences.getInstance();
 
   SystemChrome.setSystemUIOverlayStyle(
@@ -74,7 +73,8 @@ class MyAppState extends State<MyApp> {
               cursorColor: ColorConstants.colorButtonbgColor),
         ),
         onGenerateRoute: router.Router.generateRoute,
-        initialRoute: SharedPref.prefs?.getString(SharedPref.TOKEN) == null
+        initialRoute: SharedPref.prefs?.getString(SharedPref.TOKEN) == "null" ||
+                SharedPref.prefs?.getString(SharedPref.TOKEN).isEmpty
             ? RoutesConstants.login
             : RoutesConstants.dashboard);
   }

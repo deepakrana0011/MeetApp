@@ -89,12 +89,12 @@ class _EditProfileState extends State<EditProfile> {
                                       ColorConstants.whiteColor,
 
                                       child:
-                                      provider.file.contains('static')?ImageView(
+                                      provider.file!.contains('static')?ImageView(
                                         width: scaler!.getWidth(25),
                                         radius: scaler!.getWidth(14),
                                         height: scaler!.getWidth(25),
                                         circleCrop: true,
-                                        path: ApiConstants.IMAGE_URL+provider.file,fit: BoxFit.cover,
+                                        path: ApiConstants.IMAGE_URL+provider.file!,fit: BoxFit.cover,
                                       ):
                                       ImageView(
                                         width: scaler!.getWidth(25),
@@ -314,7 +314,7 @@ class _EditProfileState extends State<EditProfile> {
                                         provider.datetime.text.trim(),
                                         provider.desccontroller.text.trim(),
                                         provider.emailController.text.trim(),
-                                        provider.file,
+                                        provider.file!,
 
 
 
