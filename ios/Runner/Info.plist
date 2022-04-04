@@ -36,19 +36,17 @@
 		<string>_dartobservatory._tcp</string>
 	</array>
 	<key>NSCameraUsageDescription</key>
-	<string> Requires camera permission for user's profile photo</string>
+	<string>Meet app requires access to the camera to upload your profile photo</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>Always and when in use!</string>
+	<string>Meet app requires access to the location to show it on google map</string>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string>Can I have location always?</string>
+	<string>Meet app requires access to the location to show it on google map</string>
 	<key>NSLocationUsageDescription</key>
-	<string>Older devices need location.</string>
+	<string>Meet app requires access to the location to show it on google map</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Need location when in use</string>
-	<key>NSMicrophoneUsageDescription</key>
-	<string> Need This Permission for using the micorphone</string>
+	<string>Meet app requires access to the location to show it on google map</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>This app needs access the photo </string>
+	<string>Meet app requires access to the camera to upload your profile photo</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>

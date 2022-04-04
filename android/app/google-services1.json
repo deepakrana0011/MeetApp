@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "11278587104",
+    "project_id": "meetapp-e5d9c",
+    "storage_bucket": "meetapp-e5d9c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:11278587104:android:343243f660a4d0602c2c85",
+        "android_client_info": {
+          "package_name": "com.dating.meetapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "11278587104-tv20ing5ac5tm3l6br8j521v7dtt6v96.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCYbEtSy8nYPb0GExCz0D6JGh2QLpKTpLY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "11278587104-tv20ing5ac5tm3l6br8j521v7dtt6v96.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

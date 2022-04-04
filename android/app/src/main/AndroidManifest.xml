@@ -29,7 +29,7 @@
 
 
     <application
-        android:label="Meet"
+        android:label="MeetTheRing"
         android:name=".MainApplication"
         android:allowBackup="false"
         android:usesCleartextTraffic="true"
